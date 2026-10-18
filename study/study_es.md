@@ -74,7 +74,7 @@ Las viviendas de la Carretera de Chile y la Calle Doctor Alfonso Chiscano Díaz 
 
 ## Dónde podría ir un parque
 
-El solar abandonado más una franja del campo de golf junto a la Calle Doctor Alfonso Chiscano Díaz dejarían todas las viviendas de la bolsa a menos de 500 m de un parque, usando cerca del 6% del campo. Modelizamos el campo entero, franjas a lo largo del borde que da a las viviendas y dos zonas dibujadas por los vecinos: el solar abandonado y una franja entre la Calle Doctor Alfonso Chiscano Díaz y la red de protección del campo.
+El solar abandonado más una franja del campo de golf junto a la Calle Doctor Alfonso Chiscano Díaz dejarían todas las viviendas de la bolsa a menos de 500 m de un parque, usando cerca del 6% del campo. Modelizamos el campo entero y dos zonas dibujadas por los vecinos: el solar abandonado y una franja entre la Calle Doctor Alfonso Chiscano Díaz y la red de protección del campo.
 
 | Zona convertida en parque público | Tamaño | Terreno del campo de golf usado | Bolsa: mediana a pie hasta un parque | Viviendas de la bolsa a menos de 500 m | Personas de la ciudad que ganan un parque a menos de 500 m |
 | --- | --- | --- | --- | --- | --- |
@@ -82,14 +82,11 @@ El solar abandonado más una franja del campo de golf junto a la Calle Doctor Al
 | **Propuesta: solar abandonado + franja de los vecinos** | **0,93 ha** | **6%** | **258 m** | **100%** | **\~6.400** |
 | Solo el solar abandonado | 0,38 ha | ninguno | 369 m | 74% | \~5.200 |
 | Solo la franja de los vecinos | 0,55 ha | 6% | 258 m | 100% | \~4.900 |
-| Franja de 30 m (cruza el estanque de riego) | 0,23 ha | 3% | 220 m | 100% | \~3.600 |
-| Franja de 50 m (cruza el estanque de riego) | 0,73 ha | 8% | 220 m | 100% | \~4.500 |
 | Todo el campo de golf | 9,2 ha | 100% | 220 m | 100% | \~8.000 |
 
 ![Las zonas propuestas, en azul: A, el solar abandonado, y B, la franja de los vecinos junto a la Calle Doctor Alfonso Chiscano Díaz. Los triángulos marcan puntos de calle por los que se puede entrar a cada zona (se muestra uno cada 60 m). La estrella marca la Carretera de Chile 37.](img/map_proposals.png)
 
 - **La franja de los vecinos es la opción viable.** Solo una valla baja la separa de la acera de la Calle Doctor Alfonso Chiscano Díaz, y la red alta que detiene las bolas del campo de prácticas ya recorre su lado este. Contiene cuatro pequeños greens de práctica de putt. Por sí sola deja todas las viviendas de la bolsa a menos de 500 m de un parque, con una mediana de 258 m a pie.
-- **Las franjas modelizadas no son viables tal como están dibujadas.** Su extremo sur cruza el estanque que almacena el agua de riego del campo. Dan un resultado algo mejor solo porque ese extremo llega a El Horno de Cal.
 - **El solar abandonado llega a más gente.** No usa terreno del golf y da a unas 5.200 personas de la ciudad un parque a menos de 500 m, muchas de ellas en el barrio al norte del campo. Por sí solo cubre tres cuartas partes de la bolsa.
 - **Juntos sirven a las dos zonas.** El solar y la franja de los vecinos suman 0,93 ha, de las que 0,53 ha son terreno del golf. Unas 6.400 personas de la ciudad ganarían un parque a menos de 500 m.
 - **Todo el campo es el máximo posible.** Abierto como parque, elevaría el porcentaje de residentes de la ciudad a menos de 500 m de un parque del 77,4% al 79,4%.

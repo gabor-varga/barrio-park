@@ -74,7 +74,7 @@ The homes along Carretera de Chile and Calle Doctor Alfonso Chiscano Díaz form 
 
 ## Where a park could go
 
-The abandoned plot plus a strip of the golf course along Calle Doctor Alfonso Chiscano Díaz would bring every home in the pocket within 500 m of a park, using about 6% of the course. We modelled the whole course, strips along its edge facing the homes, and two areas drawn by residents: the abandoned plot and a strip between Calle Doctor Alfonso Chiscano Díaz and the course's ball-stop net.
+The abandoned plot plus a strip of the golf course along Calle Doctor Alfonso Chiscano Díaz would bring every home in the pocket within 500 m of a park, using about 6% of the course. We modelled the whole course and two areas drawn by residents: the abandoned plot and a strip between Calle Doctor Alfonso Chiscano Díaz and the course's ball-stop net.
 
 | Area turned into a public park | Size | Golf course land used | Pocket: median walk to a park | Pocket homes within 500 m | People citywide gaining a park within 500 m |
 | --- | --- | --- | --- | --- | --- |
@@ -82,14 +82,11 @@ The abandoned plot plus a strip of the golf course along Calle Doctor Alfonso Ch
 | **Proposed: abandoned plot + residents' strip** | **0.93 ha** | **6%** | **258 m** | **100%** | **\~6,400** |
 | Abandoned plot only | 0.38 ha | none | 369 m | 74% | \~5,200 |
 | Residents' strip only | 0.55 ha | 6% | 258 m | 100% | \~4,900 |
-| 30 m strip (crosses the irrigation pond) | 0.23 ha | 3% | 220 m | 100% | \~3,600 |
-| 50 m strip (crosses the irrigation pond) | 0.73 ha | 8% | 220 m | 100% | \~4,500 |
 | Whole golf course | 9.2 ha | 100% | 220 m | 100% | \~8,000 |
 
 ![The proposed areas in blue: A, the abandoned plot, and B, the residents' strip along Calle Doctor Alfonso Chiscano Díaz. Triangles mark street points where each area can be entered (one every 60 m is shown). The star marks Carretera de Chile 37.](img/map_proposals.png)
 
 - **The residents' strip is the practical choice.** Only a low fence separates it from the pavement of Calle Doctor Alfonso Chiscano Díaz, and the tall net that stops balls from the driving range already runs along its eastern side. It holds four small practice putting greens. On its own it brings every home in the pocket within 500 m of a park, with a median walk of 258 m.
-- **The modelled strips are not feasible as drawn.** Their southern end crosses the pond that stores irrigation water for the course. They score slightly better only because that end reaches El Horno de Cal.
 - **The abandoned plot reaches the most people.** It uses no golf land and gives about 5,200 people across the city a park within 500 m, many of them in the neighbourhood north of the course. On its own it covers three quarters of the pocket.
 - **Together they serve both areas.** The plot and the residents' strip cover 0.93 ha, of which 0.53 ha is golf land. About 6,400 people across the city would gain a park within 500 m.
 - **The whole course is the upper bound.** Opened as a park, it would raise the share of the city's residents within 500 m of a park from 77.4% to 79.4%.
