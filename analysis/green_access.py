@@ -63,14 +63,19 @@ import matplotlib
 
 matplotlib.use("Agg")
 import matplotlib.patheffects as pe  # noqa: E402
+from matplotlib.lines import Line2D  # noqa: E402
 from matplotlib.patches import Patch  # noqa: E402
 import matplotlib.pyplot as plt  # noqa: E402
+import shapely  # noqa: E402
+from matplotlib.collections import EllipseCollection  # noqa: E402
+from matplotlib.colors import Normalize  # noqa: E402
 import networkx as nx  # noqa: E402
 import numpy as np  # noqa: E402
 import osmnx as ox  # noqa: E402
 import pandas as pd  # noqa: E402
 from scipy.spatial import cKDTree  # noqa: E402
 from shapely.geometry import LineString, Point, box as rect  # noqa: E402
+from shapely.affinity import rotate  # noqa: E402
 from shapely.ops import linemerge, unary_union  # noqa: E402
 
 warnings.filterwarnings("ignore", category=UserWarning)
@@ -1085,8 +1090,97 @@ def thin_points(pts, spacing):
     return pts.iloc[keep]
 
 
-def plot_proposals(out, origins, hull, golf, extras, pt, streets=None, footprints=None,
-                   target_label="target"):
+def dwelling_grid(poly, n, radius):
+    """n points in a regular grid filling the polygon, aligned with its long side.
+
+    The grid spacing is the widest that still fits all n points inside; a tall block with many
+    homes on a small footprint gets a tight grid whose dots overlap. Only a sliver too thin for
+    any grid gets a block of points around its centre.
+    """
+    rect_ = poly.minimum_rotated_rectangle
+    c = np.asarray(rect_.exterior.coords)
+    e1, e2 = c[1] - c[0], c[2] - c[1]
+    long_ = e1 if np.hypot(*e1) >= np.hypot(*e2) else e2
+    angle = np.degrees(np.arctan2(long_[1], long_[0]))
+    centre = poly.centroid
+    flat = rotate(poly, -angle, origin=centre)
+    inner = flat.buffer(-0.8 * radius)
+    if inner.is_empty:
+        inner = flat
+    x0, y0, x1, y1 = inner.bounds
+
+    def lattice(d):
+        nx, ny = int((x1 - x0) // d) + 1, int((y1 - y0) // d) + 1
+        xs = (x0 + x1) / 2 + (np.arange(nx) - (nx - 1) / 2) * d
+        ys = (y0 + y1) / 2 + (np.arange(ny) - (ny - 1) / 2) * d
+        gx, gy = np.meshgrid(xs, ys[::-1])
+        gx, gy = gx.ravel(), gy.ravel()
+        keep = shapely.contains_xy(inner, gx, gy)
+        return np.column_stack([gx[keep], gy[keep]])
+
+    lo, hi = 0.3, max(x1 - x0, y1 - y0, 2.2 * radius)
+    if len(lattice(lo)) < n:  # a sliver: a block of rows x cols around the centre
+        cols = int(np.ceil(np.sqrt(n * max(x1 - x0, 1) / max(y1 - y0, 1))))
+        rows = int(np.ceil(n / cols))
+        gx, gy = np.meshgrid((np.arange(cols) - (cols - 1) / 2) * lo,
+                             ((rows - 1) / 2 - np.arange(rows)) * lo)
+        pts = np.column_stack([gx.ravel(), gy.ravel()])[:n] + [centre.x, centre.y]
+    else:
+        for _ in range(20):  # widest spacing that still holds n points
+            mid = (lo + hi) / 2
+            lo, hi = (mid, hi) if len(lattice(mid)) >= n else (lo, mid)
+        pts = lattice(lo)
+        pts = pts[np.linspace(0, len(pts) - 1, n).round().astype(int)]
+    a = np.radians(angle)
+    rot = np.array([[np.cos(a), -np.sin(a)], [np.sin(a), np.cos(a)]])
+    return (pts - [centre.x, centre.y]) @ rot.T + [centre.x, centre.y]
+
+
+def draw_dwellings(ax, origins, footprints, radius, zorder=4):
+    """One dot per home, coloured by the building's walk to the nearest park, laid out in a grid
+    inside the building's footprint. Returns the collection (for the colour bar)."""
+    if "dwellings" not in origins or not len(origins):
+        return None
+    # Catastro splits a parcel's homes over its building polygons (0.4 + 0.6 ...). Round the
+    # running total, not each polygon, so the homes are kept (polygons of a parcel are adjacent).
+    total = np.round(np.cumsum(origins["dwellings"].to_numpy()))
+    o = origins.assign(n=np.diff(np.concatenate([[0], total])).astype(int))
+    o = o[o["n"] >= 1]
+    polys = [None] * len(o)
+    if footprints is not None and len(o):
+        hit = gpd.sjoin(o[["geometry"]], footprints[["geometry"]], predicate="within", how="left")
+        hit = hit[~hit.index.duplicated()]
+        polys = [footprints.geometry.loc[i] if pd.notna(i) else None for i in hit["index_right"]]
+    xy, val = [], []
+    for (_, r), poly in zip(o.iterrows(), polys):
+        n = int(r["n"])
+        if poly is None:  # no footprint: a small square around the point
+            poly = r.geometry.buffer(2 * radius * np.sqrt(n), cap_style=3)
+        xy.append(dwelling_grid(poly, n, radius))
+        val.append(np.full(n, min(r["d_park"], 1500)))
+    xy = np.vstack(xy) if xy else np.empty((0, 2))
+    coll = EllipseCollection(widths=2 * radius, heights=2 * radius, angles=0, units="xy",
+                             offsets=xy, offset_transform=ax.transData, cmap="RdYlGn_r",
+                             norm=Normalize(0, 1500), linewidths=0, zorder=zorder)
+    coll.set_array(np.concatenate(val) if val else np.empty(0))
+    ax.add_collection(coll)
+    return coll
+
+
+NEW_BUILDING_STYLE = dict(facecolor="#f6e3d6", edgecolor="#c2410c", hatch="////", linewidth=1.4,
+                          linestyle="--")
+
+
+def draw_new_buildings(ax, new_buildings, zorder=3):
+    """Buildings finished or under construction that are not in the Catastro data yet."""
+    if new_buildings is None or not len(new_buildings):
+        return None
+    new_buildings.plot(ax=ax, zorder=zorder, **NEW_BUILDING_STYLE)
+    return Patch(label="new building, not yet in Catastro", **NEW_BUILDING_STYLE)
+
+
+def plot_proposals(out, origins, hull, golf, extras, streets=None, footprints=None,
+                   new_buildings=None):
     """Close-up of the pocket, the west of the golf course and the hand-drawn areas.
 
     Each area is labelled with the part of its name before ':' (e.g. "A: abandoned plot" -> "A").
@@ -1117,8 +1211,8 @@ def plot_proposals(out, origins, hull, golf, extras, pt, streets=None, footprint
                     weight="bold", color="#10305a", zorder=8,
                     path_effects=[pe.withStroke(linewidth=4, foreground="white")])
     o = origins.cx[box[0]:box[2], box[1]:box[3]]
-    sc = ax.scatter(o.geometry.x, o.geometry.y, c=o["d_park"].clip(upper=1500), s=30,
-                    cmap="RdYlGn_r", vmin=0, vmax=1500, edgecolor="white", linewidth=0.5, zorder=4)
+    new_patch = draw_new_buildings(ax, new_buildings)
+    sc = draw_dwellings(ax, o, footprints, radius=1.3)
     if ents is not None and len(ents) and prop is not None:
         # Every street point within 30 m of an area counts as an entrance; show one per 60 m.
         styles = [("^", "#f5c518"), ("v", "#ffffff"), ("D", "#9ad0f5"), ("s", "#f59a9a")]
@@ -1129,7 +1223,6 @@ def plot_proposals(out, origins, hull, golf, extras, pt, streets=None, footprint
             ax.scatter(e.geometry.x, e.geometry.y, marker=marker, s=60, facecolor=face,
                        edgecolor="#111111", linewidth=1.3, zorder=6,
                        label=f"entrance to {str(lab).split(':')[0]}")
-    ax.plot(pt.x, pt.y, marker="*", color="black", ms=18, ls="", label=target_label, zorder=7)
     ax.set_xlim(box[0], box[2])
     ax.set_ylim(box[1], box[3])
     x0, y0 = box[0] + 30, box[1] + 30
@@ -1137,9 +1230,16 @@ def plot_proposals(out, origins, hull, golf, extras, pt, streets=None, footprint
     ax.text(x0 + 50, y0 + 8, "100 m", ha="center", zorder=9)
     north_arrow(ax, box)
     fig.colorbar(sc, ax=ax, shrink=0.5, label="walking distance to nearest park today (m)")
-    ax.legend(loc="upper left", fontsize=9, framealpha=0.95)
+    handles, _ = ax.get_legend_handles_labels()
+    handles.insert(0, Line2D([], [], marker="o", ls="", color="#e0603a", ms=5,
+                             label="one dot = one home (Catastro)"))
+    if new_patch is not None:
+        handles.append(new_patch)
+    ax.legend(handles=handles, loc="upper left", fontsize=9, framealpha=0.95)
     ax.set_axis_off()
     avoid = [] if prop is None else list(prop.geometry)
+    if new_buildings is not None:
+        avoid += list(new_buildings.geometry)
     avoid += list(o.geometry.buffer(6))
     if ents is not None and len(ents):
         avoid += list(ents.geometry.buffer(8))
@@ -1149,8 +1249,8 @@ def plot_proposals(out, origins, hull, golf, extras, pt, streets=None, footprint
     plt.close(fig)
 
 
-def plot_pocket(out, origins, hull, parks_big, play, golf, pt, proposals=None, streets=None,
-                footprints=None, target_label="target"):
+def plot_pocket(out, origins, hull, parks_big, play, golf, proposals=None, streets=None,
+                footprints=None, new_buildings=None):
     if hull is None:
         return
     minx, miny, maxx, maxy = hull.bounds
@@ -1174,14 +1274,13 @@ def plot_pocket(out, origins, hull, parks_big, play, golf, pt, proposals=None, s
                     weight="bold", color="#10305a", zorder=8,
                     path_effects=[pe.withStroke(linewidth=3, foreground="white")])
     parks_big.cx[box[0]:box[2], box[1]:box[3]].plot(ax=ax, color="#2e8b57", alpha=0.7, zorder=2)
-    sc = ax.scatter(o.geometry.x, o.geometry.y, c=o["d_park"].clip(upper=1500), s=9,
-                    cmap="RdYlGn_r", vmin=0, vmax=1500, zorder=3)
+    new_patch = draw_new_buildings(ax, new_buildings)
+    sc = draw_dwellings(ax, o, footprints, radius=1.8, zorder=3)
     if len(play):
         pp = play.geometry.representative_point()
         pp = pp.cx[box[0]:box[2], box[1]:box[3]]
         ax.scatter(pp.x, pp.y, marker="^", s=55, c="royalblue", edgecolor="white",
                    label="playground", zorder=4)
-    ax.plot(pt.x, pt.y, marker="*", color="black", ms=18, ls="", label=target_label, zorder=6)
     ax.set_xlim(box[0], box[2])
     ax.set_ylim(box[1], box[3])
     # 500 m scale bar
@@ -1194,6 +1293,10 @@ def plot_pocket(out, origins, hull, parks_big, play, golf, pt, proposals=None, s
     if proposals is not None and len(proposals):
         handles.insert(0, Patch(facecolor="#2b6cb0", alpha=0.6, edgecolor="#1a4480",
                                 label="proposed park (A, B)"))
+    handles.insert(0, Line2D([], [], marker="o", ls="", color="#e0603a", ms=4,
+                             label="one dot = one home (Catastro)"))
+    if new_patch is not None:
+        handles.append(new_patch)
     ax.legend(handles=handles, loc="upper right", framealpha=0.95)
     ax.set_axis_off()
     avoid = [hull.buffer(40)]
@@ -1208,7 +1311,7 @@ def plot_pocket(out, origins, hull, parks_big, play, golf, pt, proposals=None, s
 # ----------------------------------------------------------------------------
 # Plots
 # ----------------------------------------------------------------------------
-def make_plots(out, barrios, table, parks_big, play, pt, barrio, min_buildings):
+def make_plots(out, barrios, table, parks_big, play, hull, barrio, min_buildings):
     b = barrios.join(table[RANK_METRIC], on="barrio")
     fig, ax = plt.subplots(figsize=(11, 11))
     b.plot(column=RANK_METRIC, cmap="RdYlGn", vmin=0, vmax=100, legend=True, ax=ax,
@@ -1219,7 +1322,9 @@ def make_plots(out, barrios, table, parks_big, play, pt, barrio, min_buildings):
     if len(play):
         pp = play.geometry.representative_point()
         ax.scatter(pp.x, pp.y, s=14, c="royalblue", label="playground", zorder=3)
-    ax.plot(pt.x, pt.y, marker="*", color="black", ms=20, ls="", label="target", zorder=4)
+    if hull is not None:  # where the pocket is; no single address is marked on any map
+        gpd.GeoSeries([hull.buffer(60)], crs=CRS_M).boundary.plot(
+            ax=ax, color="black", linewidth=2, zorder=4, label="the pocket")
     ax.legend(loc="lower left")
     ax.set_axis_off()
     ax.set_title("Walking access to parks, by barrio")
@@ -1277,6 +1382,9 @@ def parse_args():
     p.add_argument("--proposal-file",
                    help="polygon(s) drawn by hand (e.g. in QGIS) of a proposed new park; "
                         "each is evaluated as if it were a public park")
+    p.add_argument("--new-buildings",
+                   help="polygons of buildings finished or under construction that are not in "
+                        "the Catastro yet; drawn on the maps only")
     p.add_argument("--pocket-file",
                    help="polygon (e.g. drawn in QGIS) to use as the pocket instead")
     p.add_argument("--m2-per-resident", type=float, default=45,
@@ -1349,18 +1457,17 @@ def main():
     (out / "target_report.txt").write_text(report, encoding="utf-8")
     print("\n" + report)
 
-    make_plots(out, barrios, table, parks_big, play, pt, barrio, a.min_buildings)
-
     pocket_txt, hull, golf_near, strips, extras = pocket_analysis(
         a, net, origins, parks_big, play, golf, pt)
     (out / "pocket_report.txt").write_text(pocket_txt, encoding="utf-8")
     print("\n" + pocket_txt)
+    make_plots(out, barrios, table, parks_big, play, hull, barrio, a.min_buildings)
     streets = street_edges(net)
     footprints = building_footprints(a.catastro) if a.catastro else None
-    target_label = "target" if a.latlon else a.address.split(",")[0]
-    plot_pocket(out, origins, hull, parks_big, play, golf_near, pt, extras.get("proposals"),
-                streets, footprints, target_label)
-    plot_proposals(out, origins, hull, golf_near, extras, pt, streets, footprints, target_label)
+    new_buildings = read_vector(a.new_buildings) if a.new_buildings else None
+    plot_pocket(out, origins, hull, parks_big, play, golf_near, extras.get("proposals"),
+                streets, footprints, new_buildings)
+    plot_proposals(out, origins, hull, golf_near, extras, streets, footprints, new_buildings)
 
     gpkg = out / "layers.gpkg"
     barrios.join(table, on="barrio").to_file(gpkg, layer="barrios", driver="GPKG")
@@ -1378,6 +1485,8 @@ def main():
         streets.clip(around).to_file(gpkg, layer="streets", driver="GPKG")
         if footprints is not None:
             footprints.clip(around).to_file(gpkg, layer="footprints", driver="GPKG")
+        if new_buildings is not None:
+            new_buildings.to_file(gpkg, layer="new_buildings", driver="GPKG")
     if len(golf_near):
         gk = [c for c in ("name", "area_m2", "geometry") if c in golf_near.columns]
         golf_near[gk].to_file(gpkg, layer="golf", driver="GPKG")

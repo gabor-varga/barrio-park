@@ -11,7 +11,7 @@
     --bg:#0e1612; --fg:#e6eee8; --muted:#a6b3ab; --line:#2a3a31;
     --green:#0d6b44; --on-green:#ffffff; --yellow:#f5c518; --on-yellow:#15201a;
     --soft:#16241c; --link:#7fd3a6; color-scheme:dark;
-    --map-bg:#16241c; --map-bldg:#2c3b33; --map-home:#e2622b; --map-home-text:#f59a6b; --map-golf:#3f3b22;
+    --map-bg:#16241c; --map-bldg:#2c3b33; --map-home:#e2622b; --map-home-text:#f59a6b; --map-new:#5a3424; --map-golf:#3f3b22;
     --map-golf-text:#d8c98f; --map-park:#2e9d68; --map-casing:#0e1612; --map-road:#46584e;
     --map-text:#e6eee8; --map-muted:#a6b3ab; --map-halo:#16241c;
   }
@@ -20,7 +20,7 @@
   --bg:#0e1612; --fg:#e6eee8; --muted:#a6b3ab; --line:#2a3a31;
   --green:#0d6b44; --on-green:#ffffff; --yellow:#f5c518; --on-yellow:#15201a;
   --soft:#16241c; --link:#7fd3a6; color-scheme:dark;
-  --map-bg:#16241c; --map-bldg:#2c3b33; --map-home:#e2622b; --map-home-text:#f59a6b; --map-golf:#3f3b22;
+  --map-bg:#16241c; --map-bldg:#2c3b33; --map-home:#e2622b; --map-home-text:#f59a6b; --map-new:#5a3424; --map-golf:#3f3b22;
   --map-golf-text:#d8c98f; --map-park:#2e9d68; --map-casing:#0e1612; --map-road:#46584e;
   --map-text:#e6eee8; --map-muted:#a6b3ab; --map-halo:#16241c;
 }

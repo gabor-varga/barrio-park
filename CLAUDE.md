@@ -46,6 +46,11 @@ The repo owner lives at Ctra. de Chile 37 and leads the campaign.
   `entrances` and `proposals` layers in `layers.gpkg`.
 - `analysis/proposals/proposed_parks.geojson`: plot A + strip B (B drawn to touch C/ Dr. Alfonso
   Chiscano Díaz). This is the file the 2026-10-18 run used.
+- `analysis/new_buildings.geojson`: three buildings north of the pocket, finished in the past year or
+  under construction, not yet in the Catastro (traced from the owner's marks, ±5 m). `--new-buildings`
+  draws them on the maps only; their homes are not counted (dwellings unknown).
+- The study maps draw one dot per home (Catastro dwellings, rounded as a running total so split parcels
+  keep their homes), in a grid filling each building's footprint.
 - `study/`: markdown export of the study. The live, editable study is a Claude Docs document:
   https://claude.ai/code/artifact/e5e4bef3-f24d-4a6c-831b-1d688d774c70
 - `flyer/flyer.html`: static copy of the A4 flyer (Claude design canvas:
@@ -67,6 +72,7 @@ The repo owner lives at Ctra. de Chile 37 and leads the campaign.
 - [x] Sign-up form (Tally, https://tally.so/r/VpEBNv), linked from `docs/index.html`.
 - [ ] Meeting date and place, contact; fill them into the site and flyer.
 - [ ] QR code on the flyer pointing to https://gabor-varga.github.io/barrio-park/.
+- [ ] Number of homes in the three new buildings (`analysis/new_buildings.geojson`), to count them in the pocket.
 - [ ] Check in the Catastro who owns plot A.
 - [ ] Household size from INE (census section), including the share of children under 15.
 - [ ] Verify on the ground: missing paths, whether the nearest playgrounds are public.

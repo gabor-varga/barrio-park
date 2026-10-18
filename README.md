@@ -52,6 +52,7 @@ python analysis/green_access.py \
   --names-csv data/<CL_BARRIOS_ES70_2024>/codes.csv \
   --catastro data/A.ES.SDGC.BU.<code>.zip \
   --proposal-file analysis/proposals/proposed_parks.geojson \
+  --new-buildings analysis/new_buildings.geojson \
   --strip-widths 30,40,50 \
   --outdir green_access_out
 ```

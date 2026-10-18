@@ -54,7 +54,7 @@ We measured, for every residential building in the city, the walking distance al
 
 The homes along Carretera de Chile and Calle Doctor Alfonso Chiscano Díaz form a clear pocket with no park or playground within a reasonable walk, inside a barrio that is otherwise well served.
 
-![Walking distance to the nearest park for every residential building around the pocket (Catastro buildings). Red = over 1 km. The hatched area is Las Palmeras Golf; A and B, in blue, are the proposed park areas. Grey: streets and buildings.](img/map_pocket.png)
+![Walking distance to the nearest park around the pocket. One dot is one home (Catastro), coloured by its building's walk to the nearest park; red = over 1 km. The hatched area is Las Palmeras Golf; A and B, in blue, are the proposed park areas. Grey: streets and buildings; hatched: new buildings not yet in the Catastro.](img/map_pocket.png)
 
 **1. The pocket is among the worst-served places in the city.** From Carretera de Chile 37, the nearest public park is a 1,100 m walk and the nearest playground 921 m. 88.7% of the city's residents live closer to a park, and 87.7% closer to a playground.
 
@@ -70,7 +70,7 @@ The homes along Carretera de Chile and Calle Doctor Alfonso Chiscano Díaz form 
 | Las Torres (whole barrio) | 79% | 154 m |
 | Whole city | 77% | – |
 
-![Share of residents within a 500 m walk of a park, per barrio (ISTAC boundaries, Catastro homes). The star marks Carretera de Chile 37.](img/map_park_access.png)
+![Share of residents within a 500 m walk of a park, per barrio (ISTAC boundaries, Catastro homes). The black outline marks the pocket.](img/map_park_access.png)
 
 ## Where a park could go
 
@@ -84,7 +84,7 @@ The abandoned plot plus a strip of the golf course along Calle Doctor Alfonso Ch
 | Residents' strip only | 0.55 ha | 6% | 258 m | 100% | \~4,900 |
 | Whole golf course | 9.2 ha | 100% | 220 m | 100% | \~8,000 |
 
-![The proposed areas in blue: A, the abandoned plot, and B, the residents' strip along Calle Doctor Alfonso Chiscano Díaz. Triangles mark street points where each area can be entered (one every 60 m is shown). The star marks Carretera de Chile 37.](img/map_proposals.png)
+![The proposed areas in blue: A, the abandoned plot, and B, the residents' strip along Calle Doctor Alfonso Chiscano Díaz. Triangles mark street points where each area can be entered (one every 60 m is shown). One dot is one home. Hatched: three new buildings, finished or under construction, not yet in the Catastro and not counted.](img/map_proposals.png)
 
 - **The residents' strip is the practical choice.** Only a low fence separates it from the pavement of Calle Doctor Alfonso Chiscano Díaz, and the tall net that stops balls from the driving range already runs along its eastern side. It holds four small practice putting greens. On its own it brings every home in the pocket within 500 m of a park, with a median walk of 258 m.
 - **The abandoned plot reaches the most people.** It uses no golf land and gives about 5,200 people across the city a park within 500 m, many of them in the neighbourhood north of the course. On its own it covers three quarters of the pocket.

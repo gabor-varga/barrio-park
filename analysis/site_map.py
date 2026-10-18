@@ -61,6 +61,7 @@ STYLE = """
 .mapa .bg{fill:var(--map-bg,#f3f0e8)}
 .mapa .bldg{fill:var(--map-bldg,#dcd6ca)}
 .mapa .home{fill:var(--map-home,#c2410c)}
+.mapa .new{fill:var(--map-new,#f2c4a8);stroke:var(--map-home,#c2410c);stroke-width:2;stroke-dasharray:5 4}
 .mapa .golf{fill:var(--map-golf,#e2d4a3)}
 .mapa .park{fill:var(--map-park,#0b5a39);stroke:var(--map-park-edge,#f5c518);stroke-width:3;stroke-linejoin:round}
 .mapa .casing,.mapa .road{fill:none;stroke-linecap:round;stroke-linejoin:round}
@@ -185,6 +186,11 @@ def build_svg(gpkg, lang="es"):
         lines.append(f'<path class="{cls} road" d="{d}"/>')
     lines.append(f'<path class="home" fill-rule="evenodd" '
                  f'd="{path_d(clip(unary_union(list(fp[is_home].geometry))), tf)}"/>')
+    try:  # buildings not yet in the Catastro (green_access.py --new-buildings)
+        for g in rd("new_buildings").geometry:
+            lines.append(f'<path class="new" d="{path_d(clip(g), tf)}"/>')
+    except Exception:
+        pass
     for _, r in prop.iterrows():
         lines.append(f'<path class="park" d="{path_d(clip(r.geometry), tf)}"/>')
 

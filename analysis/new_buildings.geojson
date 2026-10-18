@@ -1,0 +1,11 @@
+{
+"type": "FeatureCollection",
+"name": "new_buildings",
+"crs": { "type": "name", "properties": { "name": "urn:ogc:def:crs:OGC:1.3:CRS84" } },
+"xy_coordinate_resolution": 1e-07,
+"features": [
+{ "type": "Feature", "properties": { "name": "north-west", "marked_as": "red", "status": "new or under construction", "dwellings": null }, "geometry": { "type": "Polygon", "coordinates": [ [ [ -15.4464493, 28.1251356 ], [ -15.4464508, 28.1255062 ], [ -15.4469883, 28.1255044 ], [ -15.4469868, 28.1251338 ], [ -15.4464493, 28.1251356 ] ] ] } },
+{ "type": "Feature", "properties": { "name": "north-east", "marked_as": "green", "status": "new or under construction", "dwellings": null }, "geometry": { "type": "Polygon", "coordinates": [ [ [ -15.445688, 28.1251557 ], [ -15.4456894, 28.1254866 ], [ -15.4462816, 28.1254847 ], [ -15.4462802, 28.1251538 ], [ -15.445688, 28.1251557 ] ] ] } },
+{ "type": "Feature", "properties": { "name": "south", "marked_as": "yellow", "status": "new or under construction", "dwellings": null }, "geometry": { "type": "Polygon", "coordinates": [ [ [ -15.4456504, 28.124494 ], [ -15.4456527, 28.1250455 ], [ -15.4462101, 28.1250437 ], [ -15.4462078, 28.1244922 ], [ -15.4456504, 28.124494 ] ] ] } }
+]
+}
