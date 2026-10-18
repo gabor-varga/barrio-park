@@ -13,6 +13,7 @@ public park. Every home in the pocket would then be within 500 m of a park.
 | Folder | Contents |
 | --- | --- |
 | `docs/` | Campaign website (Spanish), published with GitHub Pages |
+| `scripts/` | `build-site.sh`, which builds the website with the study for GitHub Pages |
 | `study/` | The study, in English and Spanish, with its maps |
 | `flyer/` | One-page A4 flyer in Spanish (open in a browser and print to PDF) |
 | `analysis/` | `green_access.py`, the proposal areas and the results of the latest run |
@@ -20,17 +21,25 @@ public park. Every home in the pocket would then be within 500 m of a park.
 
 ## Publish the website with GitHub Pages
 
-1. Push this repository to GitHub. It must be public for GitHub Pages on a free account.
-2. On GitHub: **Settings → Pages → Build and deployment → Source: Deploy from a branch**,
-   branch `main`, folder `/docs`, then **Save**.
-3. After a minute the site is live at `https://<your-user>.github.io/<repo-name>/`.
-   Put that address in the flyer's QR code.
+The site is live at **https://gabor-varga.github.io/barrio-park/**. The workflow
+`.github/workflows/pages.yml` builds and deploys it on every push to `master` that touches `docs/`,
+`study/` or the build script. It can also be run by hand from the **Actions** tab.
+
+The build (`scripts/build-site.sh`) copies `docs/` and renders the study (`study/study_es.md`,
+`study/study_en.md`) with pandoc into `estudio/` and `estudio/en.html`. To preview locally:
+
+```bash
+scripts/build-site.sh            # needs pandoc; writes _site/ (ignored by git)
+python -m http.server -d _site   # then open http://localhost:8000
+```
+
+One-time setup on GitHub: **Settings → Pages → Build and deployment → Source: GitHub Actions**.
 
 ## Print the flyer
 
 Open `flyer/flyer.html` in Chrome, press Ctrl+P (Cmd+P on a Mac), choose A4, margins **None**, and
 turn on **Background graphics**. Fill in the placeholders in brackets first: meeting date and place,
-contact, QR code and study link.
+contact, and the QR code (to https://gabor-varga.github.io/barrio-park/).
 
 ## Run the analysis
 

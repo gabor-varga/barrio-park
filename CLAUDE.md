@@ -50,15 +50,18 @@ The repo owner lives at Ctra. de Chile 37 and leads the campaign.
   https://claude.ai/code/artifact/e5e4bef3-f24d-4a6c-831b-1d688d774c70
 - `flyer/flyer.html`: static copy of the A4 flyer (Claude design canvas:
   https://claude.ai/artifact/Fd2qSGw1sqkF3BFhnmQQNW).
-- `docs/index.html`: campaign website for GitHub Pages (also published at
+- `docs/index.html`: campaign website, live at https://gabor-varga.github.io/barrio-park/ (older copy at
   https://claude.ai/artifact/Q3spwuWrBJaGMjUxUEUUEF). Its "Apúntate" button is disabled until a sign-up
   form exists; the meeting date says "por anunciar".
+- `.github/workflows/pages.yml` deploys the site on push to `master`. `scripts/build-site.sh` copies
+  `docs/` and renders `study/*.md` with pandoc into `estudio/` (ES) and `estudio/en.html` (EN), so the
+  markdown study is what the public sees: keep it in sync with the Claude Docs version.
 
 ## Open items
 
 - [ ] Sign-up form (Google Forms or Tally) with the data-protection notice; link it from `docs/index.html`.
 - [ ] Meeting date and place, contact; fill them into the site and flyer.
-- [ ] QR code on the flyer pointing to the GitHub Pages address.
+- [ ] QR code on the flyer pointing to https://gabor-varga.github.io/barrio-park/.
 - [ ] Check in the Catastro who owns plot A.
 - [ ] Household size from INE (census section), including the share of children under 15.
 - [ ] Verify on the ground: missing paths, whether the nearest playgrounds are public.

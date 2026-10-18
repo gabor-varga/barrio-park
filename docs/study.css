@@ -1,0 +1,35 @@
+/* Study pages (estudio/), rendered by pandoc in scripts/build-site.sh. Loaded after pandoc's default
+   styles; gives them the campaign page's identity: Archivo, dark green, light and dark themes. */
+@import url('https://fonts.googleapis.com/css2?family=Archivo+Black&family=Archivo:wght@400;600;700&display=swap');
+
+:root{
+  --bg:#ffffff; --fg:#15201a; --muted:#4a554e; --line:#d5ddd8; --soft:#eef3ef; --link:#0b5a39;
+  --display:'Archivo Black','Arial Black',Impact,sans-serif;
+  --body:'Archivo','Helvetica Neue',Helvetica,Arial,sans-serif;
+  color-scheme:light;
+}
+@media (prefers-color-scheme: dark){
+  :root{--bg:#0e1612; --fg:#e6eee8; --muted:#a6b3ab; --line:#2a3a31; --soft:#16241c; --link:#7fd3a6; color-scheme:dark}
+}
+
+html{-webkit-text-size-adjust:100%}
+body{
+  background:var(--bg); color:var(--fg); font-family:var(--body); font-size:17px; line-height:1.55;
+  max-width:760px; margin:0 auto; padding:24px 16px 64px; hyphens:manual;
+}
+a{color:var(--link)}
+nav.top{display:flex; flex-wrap:wrap; justify-content:space-between; gap:8px 16px; padding-bottom:12px;
+  margin-bottom:28px; border-bottom:1px solid var(--line); font-weight:600}
+header#title-block-header{margin-bottom:24px}
+h1.title, h1, h2{font-family:var(--display); font-weight:400; line-height:1.1; text-wrap:balance}
+h1.title{font-size:clamp(28px,6vw,40px); color:var(--link); margin:0}
+h2{font-size:clamp(22px,5vw,28px); margin-top:2em}
+h3{font-size:19px; margin-top:1.6em}
+code{font-size:.9em; background:var(--soft); padding:.1em .3em; border-radius:4px}
+blockquote{margin:1em 0; padding:.2em 1em; border-left:4px solid var(--link); color:var(--muted)}
+img{display:block; max-width:100%; height:auto; border-radius:8px; margin:1.2em 0 .4em}
+figcaption{color:var(--muted); font-size:14px}
+table{font-size:15px}
+th, td{padding:.45em .6em; border-bottom:1px solid var(--line); vertical-align:top}
+th{text-align:left; border-bottom:2px solid var(--fg)}
+hr{border:0; border-top:1px solid var(--line)}
