@@ -6,8 +6,8 @@ The repo owner lives at Ctra. de Chile 37 and leads the campaign.
 
 ## Conventions
 
-- Neighbour-facing material (flyer, website) is in Spanish. The study is bilingual (EN + ES); keep both
-  versions in sync.
+- Neighbour-facing material (flyer, website) is in Spanish. The website also has an English page
+  (`docs/en/`), and the study is bilingual (EN + ES); keep both language versions in sync.
 - Always name both streets: Carretera de Chile **and** Calle Doctor Alfonso Chiscano Díaz.
 - Use walking distances only. No straight-line ("as the crow flies") distances: they confuse readers.
 - The city is a UNICEF *Ciudad Amiga de la Infancia* (since 2021, renewed April 2026), not a
@@ -50,12 +50,14 @@ The repo owner lives at Ctra. de Chile 37 and leads the campaign.
   https://claude.ai/code/artifact/e5e4bef3-f24d-4a6c-831b-1d688d774c70
 - `flyer/flyer.html`: static copy of the A4 flyer (Claude design canvas:
   https://claude.ai/artifact/Fd2qSGw1sqkF3BFhnmQQNW).
-- `docs/index.html`: campaign website, live at https://gabor-varga.github.io/barrio-park/ (older copy at
+- `docs/index.html` (Spanish) and `docs/en/index.html` (English, linked by a switch at the top of each):
+  campaign website, live at https://gabor-varga.github.io/barrio-park/ (older copy at
   https://claude.ai/artifact/Q3spwuWrBJaGMjUxUEUUEF). Its "Apúntate aquí" button opens the Tally sign-up
   form (https://tally.so/r/VpEBNv: name, phone, street, consent); the meeting date says "por anunciar".
-- `analysis/site_map.py` draws the website's orientation map (Spanish labels, inline SVG themed by the
-  page's `--map-*` CSS variables) from a run's `layers.gpkg` and writes it into `docs/index.html` between
-  the `<!-- mapa:start/end -->` markers. `docs/og.png` (link preview) is a screenshot of the page's hero.
+- `docs/site.css` is shared by both pages. `analysis/site_map.py` draws the orientation map (inline SVG
+  themed by the `--map-*` CSS variables; `--lang es|en`) from a run's `layers.gpkg` into each page between
+  the `<!-- mapa:start/end -->` markers. `docs/og.png` / `og-en.png` (link previews) are screenshots of
+  each page's hero.
 - `.github/workflows/pages.yml` deploys the site on push to `master`. `scripts/build-site.sh` copies
   `docs/` and renders `study/*.md` with pandoc into `estudio/` (ES) and `estudio/en.html` (EN), so the
   markdown study is what the public sees: keep it in sync with the Claude Docs version.

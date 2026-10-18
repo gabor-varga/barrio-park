@@ -12,7 +12,7 @@ public park. Every home in the pocket would then be within 500 m of a park.
 
 | Folder | Contents |
 | --- | --- |
-| `docs/` | Campaign website (Spanish), published with GitHub Pages |
+| `docs/` | Campaign website (Spanish, with an English page in `docs/en/`), published with GitHub Pages |
 | `scripts/` | `build-site.sh`, which builds the website with the study for GitHub Pages |
 | `study/` | The study, in English and Spanish, with its maps |
 | `flyer/` | One-page A4 flyer in Spanish (open in a browser and print to PDF) |
@@ -56,10 +56,11 @@ python analysis/green_access.py \
   --outdir green_access_out
 ```
 
-To redraw the website's map from the run (it writes into `docs/index.html`):
+To redraw the website's maps from the run (Spanish and English pages):
 
 ```bash
 python analysis/site_map.py green_access_out/layers.gpkg --html docs/index.html
+python analysis/site_map.py green_access_out/layers.gpkg --html docs/en/index.html --lang en
 ```
 
 The run downloads the OpenStreetMap walking network, parks and playgrounds, so it needs internet access

@@ -1,4 +1,4 @@
-"""Simplified orientation map for the campaign website, as inline SVG with Spanish labels.
+"""Simplified orientation map for the campaign website, as inline SVG (Spanish or English labels).
 
 Reads the layers.gpkg of a green_access.py run (it needs the streets, footprints, buildings,
 pocket, golf and proposals layers) and draws the pocket, the golf course, areas A and B, the
@@ -6,6 +6,7 @@ streets and a landmark. Colours come from CSS variables (--map-*) with light-the
 the page can switch them for dark mode.
 
     python analysis/site_map.py green_access_out/layers.gpkg --html docs/index.html
+    python analysis/site_map.py green_access_out/layers.gpkg --html docs/en/index.html --lang en
     python analysis/site_map.py green_access_out/layers.gpkg --out mapa.svg
 
 --html replaces everything between <!-- mapa:start --> and <!-- mapa:end --> in that page.
@@ -22,6 +23,32 @@ WIDTH = 600  # SVG user units; text sizes below are in the same units
 HOSPITAL = Point(456332, 3110645)  # Hospital Dr. Negrín (OSM, via Nominatim), EPSG:32628
 MAIN_ROADS = {"trunk", "primary", "secondary", "tertiary"}
 START, END = "<!-- mapa:start -->", "<!-- mapa:end -->"
+
+# Every word on the map, per page language (--lang). Street names stay in Spanish.
+TEXT = {
+    "es": {
+        "A": ("Solar abandonado", "0,38 ha"),
+        "B": ("Franja del campo", "0,55 ha, el 6% del golf"),
+        "golf": ("Las Palmeras Golf", "campo municipal"),
+        "homes": ("Nuestras casas", "816 viviendas", "2.000 vecinos"),
+        "hospital": "Hospital Dr. Negrín",
+        "north": "N",
+        "title": "Mapa: las casas de la Carretera de Chile y la Calle Doctor Alfonso Chiscano Díaz, "
+                 "el campo de golf Las Palmeras, el solar abandonado (A) y la franja del campo (B) "
+                 "que pedimos convertir en parque.",
+    },
+    "en": {
+        "A": ("Abandoned plot", "0.38 ha"),
+        "B": ("Strip of the course", "0.55 ha, 6% of the golf"),
+        "golf": ("Las Palmeras Golf", "municipal course"),
+        "homes": ("Our homes", "816 homes", "2,000 residents"),
+        "hospital": "Hospital Dr. Negrín",
+        "north": "N",
+        "title": "Map: the homes on Carretera de Chile and Calle Doctor Alfonso Chiscano Díaz, "
+                 "Las Palmeras golf course, and the abandoned plot (A) and strip of the course (B) "
+                 "we ask to turn into a park.",
+    },
+}
 
 # Street names drawn along the street: (OSM name, text, where along the street 0..1).
 STREET_LABELS = [
@@ -121,7 +148,8 @@ def street_label(streets, frame, name, label, where, tf, length_m, idx, avoid):
             f'text-anchor="middle">{label}</textPath></text>')
 
 
-def build_svg(gpkg):
+def build_svg(gpkg, lang="es"):
+    words = TEXT[lang]
     rd = lambda layer: gpd.read_file(gpkg, layer=layer)  # noqa: E731
     hull = rd("pocket").geometry.iloc[0]
     prop = rd("proposals")
@@ -176,8 +204,7 @@ def build_svg(gpkg):
         cx, cy = tf(c.x, c.y)
         labels.append(text(cx, cy + 12, letter, "letter"))
         letters[letter] = r.geometry
-    callouts = {"A": ("Solar abandonado", "0,38 ha"),
-                "B": ("Franja del campo", "0,55 ha, el 6% del golf")}
+    callouts = {k: words[k] for k in ("A", "B")}
     for letter, geom in letters.items():
         if letter not in callouts:
             continue
@@ -188,17 +215,17 @@ def build_svg(gpkg):
         labels.append(text(lx, ly + 20, note, "note", "start"))
 
     gx, gy = tf(x1 + 130, 3110790)  # the open south-east of the course, clear of A and B
-    labels.append(text(gx, gy, "Las Palmeras Golf", "place golf-label"))
-    labels.append(text(gx, gy + 20, "campo municipal", "note golf-label"))
+    labels.append(text(gx, gy, words["golf"][0], "place golf-label"))
+    labels.append(text(gx, gy + 20, words["golf"][1], "note golf-label"))
 
     hx0, hy0, hx1, hy1 = hull.bounds
     px, py = tf(hx0 - 25, (hy0 + hy1) / 2 + 60)
-    labels.append(text(px, py, "Nuestras casas", "place home-label", "end"))
-    labels.append(text(px, py + 21, "816 viviendas", "note", "end"))
-    labels.append(text(px, py + 40, "2.000 vecinos", "note", "end"))
+    labels.append(text(px, py, words["homes"][0], "place home-label", "end"))
+    labels.append(text(px, py + 21, words["homes"][1], "note", "end"))
+    labels.append(text(px, py + 40, words["homes"][2], "note", "end"))
 
     hx, hy = tf(HOSPITAL.x, HOSPITAL.y)
-    labels.append(text(hx, hy + 5, "Hospital Dr. Negrín", "place"))
+    labels.append(text(hx, hy + 5, words["hospital"], "place"))
 
     # Scale bar (100 m) and north arrow
     bx, by = 18, height - 20
@@ -206,13 +233,11 @@ def build_svg(gpkg):
     labels.append(text(bx + round(50 * s, 1), by - 8, "100 m", "note"))
     ax, ay = WIDTH - 24, height - 22
     labels.append(f'<path class="arrow" d="M{ax},{ay - 34} l9,22 h-18 z"/>')
-    labels.append(text(ax, ay + 4, "N", "note"))
+    labels.append(text(ax, ay + 4, words["north"], "note"))
 
     return (f'<svg class="mapa" viewBox="0 0 {WIDTH} {height}" role="img" '
             f'aria-labelledby="mapa-titulo" xmlns="http://www.w3.org/2000/svg">\n'
-            f'<title id="mapa-titulo">Mapa: las casas de la Carretera de Chile y la Calle Doctor '
-            f'Alfonso Chiscano Díaz, el campo de golf Las Palmeras, el solar abandonado (A) y la '
-            f'franja del campo (B) que pedimos convertir en parque.</title>\n'
+            f'<title id="mapa-titulo">{words["title"]}</title>\n'
             f'<style>{STYLE}</style>\n<defs>{"".join(defs)}</defs>\n'
             + "\n".join(lines + labels) + "\n</svg>")
 
@@ -222,8 +247,9 @@ def main():
     ap.add_argument("gpkg", help="layers.gpkg from a green_access.py run")
     ap.add_argument("--html", help="page to update between the mapa:start/end markers")
     ap.add_argument("--out", help="write the SVG to this file")
+    ap.add_argument("--lang", choices=sorted(TEXT), default="es", help="language of the labels")
     a = ap.parse_args()
-    svg = build_svg(a.gpkg)
+    svg = build_svg(a.gpkg, a.lang)
     if a.out:
         Path(a.out).write_text(svg, encoding="utf-8")
     if a.html:
