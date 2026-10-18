@@ -12,8 +12,8 @@ Junto a estas viviendas se encuentran Las Palmeras Golf, un campo de golf munici
 | --- | --- |
 | Mediana a pie hasta el parque público más cercano (≥ 2.500 m²) | 1.145 m |
 | Mediana a pie hasta el parque infantil más cercano | 877 m |
-| Residentes de la ciudad con un parque más cerca que Ctra. de Chile 37 | 88,7% |
-| Residentes de la ciudad con un parque infantil más cerca que Ctra. de Chile 37 | 87,7% |
+| Residentes de la ciudad con un parque más cerca que el centro de la bolsa | 88,7% |
+| Residentes de la ciudad con un parque infantil más cerca que el centro de la bolsa | 87,7% |
 
 Pedimos al Ayuntamiento que convierta el solar abandonado (0,38 ha) y una franja del campo de golf municipal junto a la Calle Doctor Alfonso Chiscano Díaz (0,55 ha, cerca del 6% del campo) en un parque público y gratuito con zona de juegos infantiles. Juntos dejarían todas las viviendas de la bolsa a menos de 500 m de un parque y darían un parque a menos de 500 m a unas 6.400 personas de la ciudad.
 
@@ -48,7 +48,7 @@ Para cada edificio residencial de la ciudad medimos la distancia a pie, por call
 - **Red peatonal:** calles, senderos y escaleras de OpenStreetMap. La distancia se mide hasta el borde del parque, lo que favorece ligeramente la situación actual. Las calles se muestrean cada 20 m, y se puede entrar en un parque desde cualquier punto de calle a menos de 30 m de su borde.
 - **Residentes:** el número de viviendas de cada edificio procede de los datos abiertos de edificios del Catastro. Los residentes se estiman a razón de 2,5 personas por vivienda; el recuento incluye posibles viviendas vacías o secundarias.
 - **Barrios:** delimitación oficial del Instituto Canario de Estadística (ISTAC, edición 2018), con los nombres de barrios de 2024.
-- **La bolsa:** el grupo continuo de viviendas, a partir de la Carretera de Chile 37, en el que tanto el parque como el parque infantil más cercanos están a más de 750 m a pie. Los edificios a menos de 150 m entre sí cuentan como un mismo grupo. El grupo lo identificó el análisis, no se dibujó a mano.
+- **La bolsa:** el grupo continuo de viviendas, a partir de una vivienda en mitad de la Carretera de Chile, en el que tanto el parque como el parque infantil más cercanos están a más de 750 m a pie. Los edificios a menos de 150 m entre sí cuentan como un mismo grupo. El grupo lo identificó el análisis, no se dibujó a mano.
 
 ## Resultados
 
@@ -56,7 +56,7 @@ Las viviendas de la Carretera de Chile y la Calle Doctor Alfonso Chiscano Díaz 
 
 ![Distancia a pie hasta el parque más cercano en torno a la bolsa. Cada punto es una vivienda (Catastro), coloreada según la distancia de su edificio al parque más cercano; rojo = más de 1 km. La zona rayada es Las Palmeras Golf; A y B, en azul, son las zonas propuestas para el parque. En gris: calles y edificios; rayados: edificios nuevos que aún no figuran en el Catastro.](img/map_pocket.png)
 
-**1. La bolsa está entre los lugares peor servidos de la ciudad.** Desde la Carretera de Chile 37, el parque público más cercano está a 1.100 m a pie y el parque infantil más cercano a 921 m. El 88,7% de los residentes de la ciudad vive más cerca de un parque, y el 87,7% más cerca de un parque infantil.
+**1. La bolsa está entre los lugares peor servidos de la ciudad.** Desde una vivienda en el centro de la bolsa, en la Carretera de Chile, el parque público más cercano está a 1.100 m a pie y el parque infantil más cercano a 921 m. El 88,7% de los residentes de la ciudad vive más cerca de un parque, y el 87,7% más cerca de un parque infantil.
 
 **2. Viven en ella unas 2.000 personas.** El Catastro registra 816 viviendas en los 26 edificios residenciales de la bolsa. Por calle más cercana, 24 edificios están en la Carretera de Chile, 1 en la Calle Doctor Alfonso Chiscano Díaz y 1 en El Horno de Cal. A 2,5 personas por vivienda son unos 2.000 residentes; el recuento incluye posibles viviendas vacías o secundarias.
 

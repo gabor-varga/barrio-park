@@ -12,8 +12,8 @@ Next to these homes sit Las Palmeras Golf, a 9.2 ha municipal golf course that i
 | --- | --- |
 | Median walk to nearest public park (≥ 2,500 m²) | 1,145 m |
 | Median walk to nearest playground | 877 m |
-| City residents with a park closer than Ctra. de Chile 37 | 88.7% |
-| City residents with a playground closer than Ctra. de Chile 37 | 87.7% |
+| City residents with a park closer than the middle of the pocket | 88.7% |
+| City residents with a playground closer than the middle of the pocket | 87.7% |
 
 We ask the Ayuntamiento to turn the abandoned plot (0.38 ha) and a strip of the municipal golf course along Calle Doctor Alfonso Chiscano Díaz (0.55 ha, about 6% of the course) into a free public park with a playground. Together they would put every home in the pocket within 500 m of a park and give about 6,400 people across the city a park within 500 m.
 
@@ -48,7 +48,7 @@ We measured, for every residential building in the city, the walking distance al
 - **Walking network:** OpenStreetMap streets, footpaths and stairs. Distance is measured to the edge of the park, which slightly favours the current situation. Streets are sampled every 20 m, and a park can be entered from any street point within 30 m of its edge.
 - **Residents:** the number of homes in each building comes from the Catastro's open buildings dataset. Residents are estimated at 2.5 people per home; the count includes any empty or second homes.
 - **Barrios:** official boundaries from the Instituto Canario de Estadística (ISTAC, 2018 edition), with 2024 barrio names.
-- **The pocket:** the connected group of homes, starting at Carretera de Chile 37, where both the nearest park and the nearest playground are more than 750 m away on foot. Buildings within 150 m of each other count as one group. The group was found by the analysis, not drawn by hand.
+- **The pocket:** the connected group of homes, starting from a home in the middle of Carretera de Chile, where both the nearest park and the nearest playground are more than 750 m away on foot. Buildings within 150 m of each other count as one group. The group was found by the analysis, not drawn by hand.
 
 ## Findings
 
@@ -56,7 +56,7 @@ The homes along Carretera de Chile and Calle Doctor Alfonso Chiscano Díaz form 
 
 ![Walking distance to the nearest park around the pocket. One dot is one home (Catastro), coloured by its building's walk to the nearest park; red = over 1 km. The hatched area is Las Palmeras Golf; A and B, in blue, are the proposed park areas. Grey: streets and buildings; hatched: new buildings not yet in the Catastro.](img/map_pocket.png)
 
-**1. The pocket is among the worst-served places in the city.** From Carretera de Chile 37, the nearest public park is a 1,100 m walk and the nearest playground 921 m. 88.7% of the city's residents live closer to a park, and 87.7% closer to a playground.
+**1. The pocket is among the worst-served places in the city.** From a home in the middle of the pocket, on Carretera de Chile, the nearest public park is a 1,100 m walk and the nearest playground 921 m. 88.7% of the city's residents live closer to a park, and 87.7% closer to a playground.
 
 **2. About 2,000 people live in it.** The Catastro records 816 homes in the pocket's 26 residential buildings. By nearest street, 24 buildings are on Carretera de Chile, 1 on Calle Doctor Alfonso Chiscano Díaz and 1 on El Horno de Cal. At 2.5 people per home that is about 2,000 residents; the count includes any empty or second homes.
 
