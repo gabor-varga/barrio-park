@@ -49,6 +49,7 @@ within 1 km", confirm on site / street-level imagery, and prefer the official
 municipal layers via --parks-file / --playgrounds-file when you have them.
 """
 import argparse
+import functools
 import re
 import sys
 import tempfile
@@ -61,13 +62,16 @@ import geopandas as gpd
 import matplotlib
 
 matplotlib.use("Agg")
+import matplotlib.patheffects as pe  # noqa: E402
+from matplotlib.patches import Patch  # noqa: E402
 import matplotlib.pyplot as plt  # noqa: E402
 import networkx as nx  # noqa: E402
 import numpy as np  # noqa: E402
 import osmnx as ox  # noqa: E402
 import pandas as pd  # noqa: E402
 from scipy.spatial import cKDTree  # noqa: E402
-from shapely.geometry import LineString, Point  # noqa: E402
+from shapely.geometry import LineString, Point, box as rect  # noqa: E402
+from shapely.ops import linemerge, unary_union  # noqa: E402
 
 warnings.filterwarnings("ignore", category=UserWarning)
 
@@ -98,6 +102,11 @@ RESIDENTIAL_KINDS = {
     "residential", "apartments", "house", "detached", "terrace",
     "semidetached_house", "dormitory", "bungalow", "yes",
 }
+# Maps: these streets are always named; other names come from the longest main roads in view.
+KEY_STREETS = ("Carretera de Chile", "Calle Doctor Alfonso Chiscano Díaz")
+MAIN_ROADS = {"trunk", "primary", "secondary", "tertiary"}
+STREET_ABBREVIATIONS = (("Calle ", "C/ "), ("Avenida ", "Av. "), ("Carretera ", "Ctra. "),
+                        ("Doctor ", "Dr. "))
 DEFAULT_LEVELS = {"apartments": 5, "residential": 4, "dormitory": 4, "yes": 3}
 NAME_COLUMN_CANDIDATES = ("nombre", "name", "barrio", "nom_barrio", "descripcio",
                           "etiqueta", "label", "title", "titulo")
@@ -421,6 +430,7 @@ def find_col(df, *needles):
     return None
 
 
+@functools.lru_cache(maxsize=None)  # extract the zip once, even when read twice
 def catastro_building_file(path):
     """Accept the Catastro BU zip, a folder, or the *.building.gml itself."""
     path = Path(path)
@@ -482,6 +492,12 @@ def catastro_dwellings(path, boundary):
     print(f"  {len(b):,} buildings with dwellings, {b['dwellings'].sum():,.0f} dwellings"
           f" in the municipality (dominant uses: {uses})")
     return b
+
+
+def building_footprints(path):
+    """Every Catastro building footprint, of any use: drawn on the maps for orientation."""
+    b = gpd.read_file(catastro_building_file(path)).to_crs(CRS_M)
+    return b.loc[b.geometry.geom_type.isin(["Polygon", "MultiPolygon"]), ["geometry"]]
 
 
 def apportion_population(o, pop_file, pop_col):
@@ -924,63 +940,217 @@ def pocket_analysis(a, net, origins, parks_big, play, golf, pt):
     return "\n".join(lines), hull, near, strips_gdf, extras
 
 
-def plot_proposals(out, origins, hull, golf, strips, extras, pt):
-    """Close-up of the pocket with the strips, hand-drawn areas and their entrances."""
+def street_edges(net):
+    """The walking network's streets (OSM) with name and road class, for drawing on maps."""
+    e = ox.graph_to_gdfs(net.G, nodes=False).reset_index(drop=True)
+    for c in ("name", "highway"):
+        if c not in e.columns:
+            e[c] = None
+        e[c] = e[c].apply(lambda v: v[0] if isinstance(v, list) else v)
+    return e[["name", "highway", "geometry"]]
+
+
+def draw_base(ax, box, streets=None, footprints=None):
+    """Building footprints in light grey, then streets as grey lines (main roads thicker)."""
+    if footprints is not None:
+        footprints.cx[box[0]:box[2], box[1]:box[3]].plot(
+            ax=ax, facecolor="#e4e4e4", edgecolor="#c2c2c2", linewidth=0.3, zorder=1)
+    if streets is None:
+        return
+    s = streets.cx[box[0]:box[2], box[1]:box[3]]
+    main = s["highway"].isin(MAIN_ROADS)
+    s[~main].plot(ax=ax, color="#d0d0d0", linewidth=0.7, zorder=1)
+    s[main].plot(ax=ax, color="#a8a8a8", linewidth=2, zorder=1)
+
+
+def label_streets(ax, streets, box, n_main=0, fontsize=8, avoid=()):
+    """Names along KEY_STREETS and the n_main longest main roads in view.
+
+    Call last, after the legend: each name slides along its street, or to one side of it, until it
+    clears the legend, the text already on the map, the other names and the `avoid` shapes.
+    Other names that find no free spot are left out; key streets are placed anyway.
+    """
+    if streets is None:
+        return
+    s = streets.cx[box[0]:box[2], box[1]:box[3]]
+    if s.empty:
+        return
+    fig = ax.figure
+    fig.canvas.draw()
+    to_data = ax.transData.inverted()
+    per_pt = (box[2] - box[0]) / ax.bbox.width * fig.dpi / 72  # map metres per font point
+
+    def extent(artist):
+        (x0, y0), (x1, y1) = to_data.transform(artist.get_window_extent().get_points())
+        return rect(min(x0, x1), min(y0, y1), max(x0, x1), max(y0, y1))
+
+    blocked = [g for g in avoid if g is not None and not g.is_empty]
+    blocked += [extent(t) for t in ax.texts]
+    if ax.get_legend() is not None:
+        blocked.append(extent(ax.get_legend()))
+    blocked = unary_union(blocked) if blocked else None
+
+    w, h = box[2] - box[0], box[3] - box[1]
+    inner = rect(box[0] + 0.03 * w, box[1] + 0.03 * h, box[2] - 0.03 * w, box[3] - 0.03 * h)
+    pieces = {}  # name -> its continuous pieces in view, longest first
+    for name, g in s.dropna(subset=["name"]).groupby("name"):
+        merged = unary_union(list(g.geometry)).intersection(inner)
+        if merged.is_empty:
+            continue
+        if merged.geom_type == "MultiLineString":
+            merged = linemerge(merged)
+        parts = [p for p in getattr(merged, "geoms", [merged]) if p.geom_type == "LineString"]
+        if parts:
+            pieces[name] = sorted(parts, key=lambda p: -p.length)[:4]
+    mains = set(s.loc[s["highway"].isin(MAIN_ROADS), "name"].dropna())
+    others = sorted((n for n in pieces if n in mains and n not in KEY_STREETS),
+                    key=lambda n: -pieces[n][0].length)
+
+    def spot(name, text, fs):
+        """Least-blocked place for `text` along the street: (overlap area, footprint, xy, angle)."""
+        lines = text.count("\n") + 1
+        half = max(len(t) for t in text.split("\n")) * 0.3 * fs * per_pt  # metres
+        tall = 1.3 * fs * per_pt * lines
+        fits = [p for p in pieces[name] if p.length >= 2 * half] or [pieces[name][0]]
+        best = None
+        for line in fits:
+            for f in (0.5, 0.4, 0.6, 0.3, 0.7, 0.2, 0.8):
+                d = min(max(f * line.length, half), line.length - half) if line.length > 2 * half \
+                    else line.length / 2
+                p0 = line.interpolate(max(d - half, 0))
+                p1 = line.interpolate(min(d + half, line.length))
+                dx, dy = p1.x - p0.x, p1.y - p0.y
+                norm = np.hypot(dx, dy) or 1.0
+                for off in (0.0, 0.9, -0.9):
+                    ox_, oy_ = -dy / norm * off * tall, dx / norm * off * tall
+                    foot = LineString([(p0.x + ox_, p0.y + oy_),
+                                       (p1.x + ox_, p1.y + oy_)]).buffer(tall / 2)
+                    hit = foot.intersection(blocked).area if blocked is not None else 0.0
+                    hit += sum(foot.intersection(q).area for q in placed)
+                    if best is None or hit < best[0]:
+                        best = (hit, foot, ((p0.x + p1.x) / 2 + ox_, (p0.y + p1.y) / 2 + oy_),
+                                np.degrees(np.arctan2(dy, dx)))
+                    if hit == 0:
+                        return best
+        return best
+
+    placed = []
+    for name in [n for n in KEY_STREETS if n in pieces] + others[:n_main]:
+        key = name in KEY_STREETS
+        fs = fontsize * (1.2 if key else 1)
+        label = name
+        for a, b in STREET_ABBREVIATIONS:
+            label = label.replace(a, b)
+        texts = [label]
+        if key and " " in label:  # a long key name may fit on two lines
+            words = label.split(" ")
+            cut = min(range(1, len(words)),
+                      key=lambda i: abs(len(" ".join(words[:i])) - len(" ".join(words[i:]))))
+            texts.append(" ".join(words[:cut]) + "\n" + " ".join(words[cut:]))
+        if not key and pieces[name][0].length < len(label) * 0.6 * fs * per_pt:
+            continue  # too short to carry its name
+        options = []
+        for text in texts:
+            options.append((spot(name, text, fs), text))
+            if options[-1][0][0] == 0:
+                break
+        (hit, foot, (x, y), angle), text = min(options, key=lambda o: o[0][0])
+        if hit > 0 and not key:
+            continue
+        ax.text(x, y, text, rotation=(angle + 90) % 180 - 90, rotation_mode="anchor",
+                ha="center", va="center", multialignment="center", fontsize=fs,
+                color="#222222" if key else "#555555", weight="bold" if key else "normal",
+                zorder=8, linespacing=1.0,
+                path_effects=[pe.withStroke(linewidth=3, foreground="white")])
+        placed.append(foot)
+
+
+def north_arrow(ax, box):
+    w, h = box[2] - box[0], box[3] - box[1]
+    x, y = box[2] - 0.05 * w, box[1] + 0.05 * h
+    ax.annotate("N", xy=(x, y + 0.07 * h), xytext=(x, y), ha="center", va="top", fontsize=12,
+                weight="bold", arrowprops=dict(arrowstyle="-|>", color="black", lw=2), zorder=9)
+
+
+def thin_points(pts, spacing):
+    """A subset of points at least `spacing` apart, so markers don't pile up along a street."""
+    if pts.empty:
+        return pts
+    pts = pts.iloc[np.lexsort((pts.geometry.x, pts.geometry.y))]
+    xy = np.column_stack([pts.geometry.x, pts.geometry.y])
+    keep = []
+    for i in range(len(xy)):
+        if all(np.hypot(*(xy[i] - xy[j])) >= spacing for j in keep):
+            keep.append(i)
+    return pts.iloc[keep]
+
+
+def plot_proposals(out, origins, hull, golf, extras, pt, streets=None, footprints=None,
+                   target_label="target"):
+    """Close-up of the pocket, the west of the golf course and the hand-drawn areas.
+
+    Each area is labelled with the part of its name before ':' (e.g. "A: abandoned plot" -> "A").
+    """
     if hull is None:
         return
     prop, ents = extras.get("proposals"), extras.get("entrances")
     shapes = [hull] + ([] if prop is None else list(prop.geometry))
     minx, miny, maxx, maxy = gpd.GeoSeries(shapes, crs=CRS_M).total_bounds
-    pad = 350
+    pad = 120
     box = (minx - pad, miny - pad, maxx + pad, maxy + pad)
-    fig, ax = plt.subplots(figsize=(11, 11))
+    fig, ax = plt.subplots(figsize=(10, 10 * (box[3] - box[1]) / (box[2] - box[0])))
+    draw_base(ax, box, streets, footprints)
     if len(golf):
-        golf.plot(ax=ax, facecolor="#e8dcb5", edgecolor="#8a7a3f", linewidth=1)
-    if strips is not None and len(strips):
-        widest = strips.sort_values("width_m").iloc[-1]
-        gpd.GeoSeries([widest.geometry], crs=CRS_M).boundary.plot(
-            ax=ax, color="#7a3b00", linewidth=1.6, linestyle="--",
-            label=f"strip {widest['width_m']:.0f} m")
+        golf.plot(ax=ax, facecolor="#e8dcb5", edgecolor="#8a7a3f", linewidth=1, zorder=2)
+        visible = union(golf.geometry).intersection(rect(*box))
+        if prop is not None and len(prop):
+            visible = visible.difference(union(prop.geometry).buffer(25))
+        if not visible.is_empty:
+            c = visible.representative_point()
+            ax.text(c.x, c.y, "Las Palmeras Golf", ha="center", va="center", fontsize=11,
+                    style="italic", color="#5c4f1f", zorder=8)
     if prop is not None and len(prop):
-        prop.plot(ax=ax, facecolor="#2b6cb0", alpha=0.35, edgecolor="#1a4480", linewidth=2)
+        prop.plot(ax=ax, facecolor="#2b6cb0", alpha=0.35, edgecolor="#1a4480", linewidth=2, zorder=3)
         for _, r in prop.iterrows():
             c = r.geometry.representative_point()
-            ax.annotate(r["label"], (c.x, c.y), ha="center", fontsize=11, weight="bold",
-                        color="#10305a")
+            ax.text(c.x, c.y, str(r["label"]).split(":")[0], ha="center", va="center", fontsize=22,
+                    weight="bold", color="#10305a", zorder=8,
+                    path_effects=[pe.withStroke(linewidth=4, foreground="white")])
     o = origins.cx[box[0]:box[2], box[1]:box[3]]
-    sc = ax.scatter(o.geometry.x, o.geometry.y, c=o["d_park"].clip(upper=1500), s=14,
-                    cmap="RdYlGn_r", vmin=0, vmax=1500, zorder=3)
-    gpd.GeoSeries([hull], crs=CRS_M).boundary.plot(ax=ax, color="black", linewidth=2, zorder=4,
-                                                   label="pocket")
-    if ents is not None and len(ents):
-        markers = ["o", "s", "D", "^", "v", "P", "X"]
-        for i, (scn, e) in enumerate(ents.groupby("scenario", sort=False)):
-            if scn.startswith("strip") and strips is not None and len(strips) and \
-                    scn != f"strip {strips['width_m'].max():.0f} m":
-                continue  # only the widest strip's entrances, to keep the map readable
-            ax.scatter(e.geometry.x, e.geometry.y, marker=markers[i % len(markers)], s=70,
-                       facecolor="white", edgecolor="#111111", linewidth=1.5, zorder=6,
-                       label=f"entrances: {scn}")
-    ax.plot(pt.x, pt.y, marker="*", color="black", ms=18, ls="", label="target", zorder=7)
+    sc = ax.scatter(o.geometry.x, o.geometry.y, c=o["d_park"].clip(upper=1500), s=30,
+                    cmap="RdYlGn_r", vmin=0, vmax=1500, edgecolor="white", linewidth=0.5, zorder=4)
+    if ents is not None and len(ents) and prop is not None:
+        # Every street point within 30 m of an area counts as an entrance; show one per 60 m.
+        styles = [("^", "#f5c518"), ("v", "#ffffff"), ("D", "#9ad0f5"), ("s", "#f59a9a")]
+        areas = [lab for lab in prop["label"] if lab in set(ents["scenario"])]
+        for i, lab in enumerate(areas):
+            e = thin_points(ents[ents["scenario"] == lab], 60)
+            marker, face = styles[i % len(styles)]
+            ax.scatter(e.geometry.x, e.geometry.y, marker=marker, s=60, facecolor=face,
+                       edgecolor="#111111", linewidth=1.3, zorder=6,
+                       label=f"entrance to {str(lab).split(':')[0]}")
+    ax.plot(pt.x, pt.y, marker="*", color="black", ms=18, ls="", label=target_label, zorder=7)
     ax.set_xlim(box[0], box[2])
     ax.set_ylim(box[1], box[3])
-    try:
-        import contextily as cx
-        cx.add_basemap(ax, crs=CRS_M, source=cx.providers.CartoDB.Positron, alpha=0.7)
-    except Exception:
-        pass
-    x0, y0 = box[0] + 60, box[1] + 60
-    ax.plot([x0, x0 + 200], [y0, y0], color="black", linewidth=3)
-    ax.text(x0 + 100, y0 + 15, "200 m", ha="center")
-    fig.colorbar(sc, ax=ax, shrink=0.6, label="walking distance to nearest park today (m)")
-    ax.legend(loc="upper right", fontsize=9)
+    x0, y0 = box[0] + 30, box[1] + 30
+    ax.plot([x0, x0 + 100], [y0, y0], color="black", linewidth=3, zorder=9)
+    ax.text(x0 + 50, y0 + 8, "100 m", ha="center", zorder=9)
+    north_arrow(ax, box)
+    fig.colorbar(sc, ax=ax, shrink=0.5, label="walking distance to nearest park today (m)")
+    ax.legend(loc="upper left", fontsize=9, framealpha=0.95)
     ax.set_axis_off()
-    ax.set_title("Proposed park areas and the street points used as their entrances")
+    avoid = [] if prop is None else list(prop.geometry)
+    avoid += list(o.geometry.buffer(6))
+    if ents is not None and len(ents):
+        avoid += list(ents.geometry.buffer(8))
+    label_streets(ax, streets, box, n_main=4, fontsize=9, avoid=avoid)
+    ax.set_title("Proposed park areas and their street entrances")
     fig.savefig(out / "map_proposals.png", dpi=170, bbox_inches="tight")
     plt.close(fig)
 
 
-def plot_pocket(out, origins, hull, parks_big, play, golf, pt, strips=None):
+def plot_pocket(out, origins, hull, parks_big, play, golf, pt, proposals=None, streets=None,
+                footprints=None, target_label="target"):
     if hull is None:
         return
     minx, miny, maxx, maxy = hull.bounds
@@ -988,19 +1158,22 @@ def plot_pocket(out, origins, hull, parks_big, play, golf, pt, strips=None):
     box = (minx - pad, miny - pad, maxx + pad, maxy + pad)
     o = origins.cx[box[0]:box[2], box[1]:box[3]]
     fig, ax = plt.subplots(figsize=(11, 11))
+    draw_base(ax, box, streets, footprints)
     if len(golf):
-        golf.plot(ax=ax, facecolor="#e8dcb5", edgecolor="#8a7a3f", hatch="//", linewidth=1)
+        golf.plot(ax=ax, facecolor="#e8dcb5", edgecolor="#8a7a3f", hatch="//", linewidth=1, zorder=2)
         for _, g in golf[golf["area_m2"] >= 1e4].iterrows():  # skip slivers
-            c = g.geometry.representative_point()
-            ax.annotate(f"golf course\n{g['area_m2'] / 1e4:,.1f} ha", (c.x, c.y),
-                        ha="center", fontsize=10, color="#5c4f1f", weight="bold")
-    if strips is not None and len(strips):
-        styles = ["-", "--", "-.", ":"]
-        for i, (_, s) in enumerate(strips.sort_values("width_m").iterrows()):
-            gpd.GeoSeries([s.geometry], crs=CRS_M).boundary.plot(
-                ax=ax, color="#7a3b00", linewidth=1.6, linestyle=styles[i % len(styles)],
-                zorder=4, label=f"strip {s['width_m']:.0f} m ({s['area_m2'] / 1e4:.1f} ha)")
-    parks_big.cx[box[0]:box[2], box[1]:box[3]].plot(ax=ax, color="#2e8b57", alpha=0.7)
+            gx0, gy0, gx1, gy1 = g.geometry.bounds  # name beside the course, clear of the streets
+            ax.text(gx1 + 40, (gy0 + gy1) / 2, f"Las Palmeras Golf\n{g['area_m2'] / 1e4:,.1f} ha",
+                    ha="left", va="center", fontsize=10, color="#5c4f1f", weight="bold", zorder=8,
+                    path_effects=[pe.withStroke(linewidth=3, foreground="white")])
+    if proposals is not None and len(proposals):
+        proposals.plot(ax=ax, facecolor="#2b6cb0", alpha=0.6, edgecolor="#1a4480", linewidth=1, zorder=4)
+        for _, r in proposals.iterrows():
+            c = r.geometry.representative_point()
+            ax.text(c.x + 25, c.y, str(r["label"]).split(":")[0], ha="left", va="center", fontsize=11,
+                    weight="bold", color="#10305a", zorder=8,
+                    path_effects=[pe.withStroke(linewidth=3, foreground="white")])
+    parks_big.cx[box[0]:box[2], box[1]:box[3]].plot(ax=ax, color="#2e8b57", alpha=0.7, zorder=2)
     sc = ax.scatter(o.geometry.x, o.geometry.y, c=o["d_park"].clip(upper=1500), s=9,
                     cmap="RdYlGn_r", vmin=0, vmax=1500, zorder=3)
     if len(play):
@@ -1008,23 +1181,25 @@ def plot_pocket(out, origins, hull, parks_big, play, golf, pt, strips=None):
         pp = pp.cx[box[0]:box[2], box[1]:box[3]]
         ax.scatter(pp.x, pp.y, marker="^", s=55, c="royalblue", edgecolor="white",
                    label="playground", zorder=4)
-    gpd.GeoSeries([hull], crs=CRS_M).boundary.plot(ax=ax, color="black", linewidth=2,
-                                                   zorder=5, label="pocket")
-    ax.plot(pt.x, pt.y, marker="*", color="black", ms=18, ls="", label="target", zorder=6)
+    ax.plot(pt.x, pt.y, marker="*", color="black", ms=18, ls="", label=target_label, zorder=6)
     ax.set_xlim(box[0], box[2])
     ax.set_ylim(box[1], box[3])
-    try:  # optional basemap
-        import contextily as cx
-        cx.add_basemap(ax, crs=CRS_M, source=cx.providers.CartoDB.Positron, alpha=0.6)
-    except Exception:
-        pass
     # 500 m scale bar
     x0, y0 = box[0] + 150, box[1] + 150
-    ax.plot([x0, x0 + 500], [y0, y0], color="black", linewidth=3)
-    ax.text(x0 + 250, y0 + 40, "500 m", ha="center")
+    ax.plot([x0, x0 + 500], [y0, y0], color="black", linewidth=3, zorder=9)
+    ax.text(x0 + 250, y0 + 40, "500 m", ha="center", zorder=9)
+    north_arrow(ax, box)
     fig.colorbar(sc, ax=ax, shrink=0.6, label="walking distance to nearest park (m, capped at 1500)")
-    ax.legend(loc="upper right")
+    handles, _ = ax.get_legend_handles_labels()
+    if proposals is not None and len(proposals):
+        handles.insert(0, Patch(facecolor="#2b6cb0", alpha=0.6, edgecolor="#1a4480",
+                                label="proposed park (A, B)"))
+    ax.legend(handles=handles, loc="upper right", framealpha=0.95)
     ax.set_axis_off()
+    avoid = [hull.buffer(40)]
+    if proposals is not None and len(proposals):
+        avoid.append(union(proposals.geometry).buffer(40))
+    label_streets(ax, streets, box, n_main=8, fontsize=8, avoid=avoid)
     ax.set_title("The pocket: walking distance to the nearest park, per building")
     fig.savefig(out / "map_pocket.png", dpi=170, bbox_inches="tight")
     plt.close(fig)
@@ -1180,8 +1355,12 @@ def main():
         a, net, origins, parks_big, play, golf, pt)
     (out / "pocket_report.txt").write_text(pocket_txt, encoding="utf-8")
     print("\n" + pocket_txt)
-    plot_pocket(out, origins, hull, parks_big, play, golf_near, pt, strips)
-    plot_proposals(out, origins, hull, golf_near, strips, extras, pt)
+    streets = street_edges(net)
+    footprints = building_footprints(a.catastro) if a.catastro else None
+    target_label = "target" if a.latlon else a.address.split(",")[0]
+    plot_pocket(out, origins, hull, parks_big, play, golf_near, pt, extras.get("proposals"),
+                streets, footprints, target_label)
+    plot_proposals(out, origins, hull, golf_near, extras, pt, streets, footprints, target_label)
 
     gpkg = out / "layers.gpkg"
     barrios.join(table, on="barrio").to_file(gpkg, layer="barrios", driver="GPKG")

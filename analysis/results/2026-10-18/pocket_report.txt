@@ -43,19 +43,19 @@ PARTIAL CONVERSION (a strip of the course on the side facing the pocket)
     strip 40 m 15 street point(s): Calle Doctor Alfonso Chiscano Díaz (13), El Horno de Cal (2)
     strip 50 m 21 street point(s): Calle Doctor Alfonso Chiscano Díaz (16), (unnamed) (3), El Horno de Cal (2)
 
-PROPOSED PARK AREA(S) from proposed_parks.geojson
+PROPOSED PARK AREA(S) from analysis/proposals/proposed_parks.geojson
   entrances: street nodes within 30 m of the area's edge (draw the area so it
   touches the street you want the entrance on)
 
   area                     size      pocket median   pocket <=300 m   pocket <=500 m   people gaining
                                      walk to park                                      a park <=500 m
-  park_option_A            0.38 ha         369 m           22.8 %           73.5 %     ~5,208
-  park_option_B            0.55 ha         258 m           68.6 %          100.0 %     ~4,878
+  A: abandoned plot        0.38 ha         369 m           22.8 %           73.5 %     ~5,208
+  B: residents' strip      0.55 ha         258 m           68.6 %          100.0 %     ~4,878
   all areas together       0.93 ha         258 m           69.4 %          100.0 %     ~6,435
 
   where each area sits and which streets it opens onto:
-    park_option_A            0 % on the golf course; entrances: 22 street point(s): (unnamed) (11), Calle Doctor Alfonso Chiscano Díaz (9), Carretera de Chile (2)
-    park_option_B           96 % on the golf course; entrances: 18 street point(s): Calle Doctor Alfonso Chiscano Díaz (15), (unnamed) (3)
+    A: abandoned plot        0 % on the golf course; entrances: 22 street point(s): (unnamed) (11), Calle Doctor Alfonso Chiscano Díaz (9), Carretera de Chile (2)
+    B: residents' strip     96 % on the golf course; entrances: 18 street point(s): Calle Doctor Alfonso Chiscano Díaz (15), (unnamed) (3)
   (an area only helps if it opens onto the streets the homes use; see map_proposals.png)
 
 CAVEATS

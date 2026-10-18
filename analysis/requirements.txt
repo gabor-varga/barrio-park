@@ -6,4 +6,3 @@ matplotlib
 pandas
 numpy
 shapely>=2
-contextily  # optional: basemap tiles on the maps

@@ -54,7 +54,7 @@ We measured, for every residential building in the city, the walking distance al
 
 The homes along Carretera de Chile and Calle Doctor Alfonso Chiscano Díaz form a clear pocket with no park or playground within a reasonable walk, inside a barrio that is otherwise well served.
 
-![Walking distance to the nearest park for every residential building around the pocket (Catastro buildings). Red = over 1 km. The black outline is the pocket; the hatched area is Las Palmeras Golf; brown lines are the modelled strips.](img/map_pocket.png)
+![Walking distance to the nearest park for every residential building around the pocket (Catastro buildings). Red = over 1 km. The hatched area is Las Palmeras Golf; A and B, in blue, are the proposed park areas. Grey: streets and buildings.](img/map_pocket.png)
 
 **1. The pocket is among the worst-served places in the city.** From Carretera de Chile 37, the nearest public park is a 1,100 m walk and the nearest playground 921 m. 88.7% of the city's residents live closer to a park, and 87.7% closer to a playground.
 
@@ -86,7 +86,7 @@ The abandoned plot plus a strip of the golf course along Calle Doctor Alfonso Ch
 | 50 m strip (crosses the irrigation pond) | 0.73 ha | 8% | 220 m | 100% | \~4,500 |
 | Whole golf course | 9.2 ha | 100% | 220 m | 100% | \~8,000 |
 
-![Proposed areas (blue: the abandoned plot and the residents' strip), the 50 m strip (dashed) and the street points used as their entrances.](img/map_proposals.png)
+![The proposed areas in blue: A, the abandoned plot, and B, the residents' strip along Calle Doctor Alfonso Chiscano Díaz. Triangles mark street points where each area can be entered (one every 60 m is shown). The star marks Carretera de Chile 37.](img/map_proposals.png)
 
 - **The residents' strip is the practical choice.** Only a low fence separates it from the pavement of Calle Doctor Alfonso Chiscano Díaz, and the tall net that stops balls from the driving range already runs along its eastern side. It holds four small practice putting greens. On its own it brings every home in the pocket within 500 m of a park, with a median walk of 258 m.
 - **The modelled strips are not feasible as drawn.** Their southern end crosses the pond that stores irrigation water for the course. They score slightly better only because that end reaches El Horno de Cal.

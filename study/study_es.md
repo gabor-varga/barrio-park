@@ -54,7 +54,7 @@ Para cada edificio residencial de la ciudad medimos la distancia a pie, por call
 
 Las viviendas de la Carretera de Chile y la Calle Doctor Alfonso Chiscano Díaz forman una bolsa clara sin parque ni zona de juegos a una distancia razonable a pie, dentro de un barrio que por lo demás está bien servido.
 
-![Distancia a pie hasta el parque más cercano para cada edificio residencial en torno a la bolsa (edificios del Catastro). Rojo = más de 1 km. El contorno negro es la bolsa; la zona rayada es Las Palmeras Golf; las líneas marrones son las franjas modelizadas.](img/map_pocket.png)
+![Distancia a pie hasta el parque más cercano para cada edificio residencial en torno a la bolsa (edificios del Catastro). Rojo = más de 1 km. La zona rayada es Las Palmeras Golf; A y B, en azul, son las zonas propuestas para el parque. En gris: calles y edificios.](img/map_pocket.png)
 
 **1. La bolsa está entre los lugares peor servidos de la ciudad.** Desde la Carretera de Chile 37, el parque público más cercano está a 1.100 m a pie y el parque infantil más cercano a 921 m. El 88,7% de los residentes de la ciudad vive más cerca de un parque, y el 87,7% más cerca de un parque infantil.
 
@@ -86,7 +86,7 @@ El solar abandonado más una franja del campo de golf junto a la Calle Doctor Al
 | Franja de 50 m (cruza el estanque de riego) | 0,73 ha | 8% | 220 m | 100% | \~4.500 |
 | Todo el campo de golf | 9,2 ha | 100% | 220 m | 100% | \~8.000 |
 
-![Zonas propuestas (en azul: el solar abandonado y la franja de los vecinos), la franja de 50 m (discontinua) y los puntos de calle usados como entradas.](img/map_proposals.png)
+![Las zonas propuestas, en azul: A, el solar abandonado, y B, la franja de los vecinos junto a la Calle Doctor Alfonso Chiscano Díaz. Los triángulos marcan puntos de calle por los que se puede entrar a cada zona (se muestra uno cada 60 m). La estrella marca la Carretera de Chile 37.](img/map_proposals.png)
 
 - **La franja de los vecinos es la opción viable.** Solo una valla baja la separa de la acera de la Calle Doctor Alfonso Chiscano Díaz, y la red alta que detiene las bolas del campo de prácticas ya recorre su lado este. Contiene cuatro pequeños greens de práctica de putt. Por sí sola deja todas las viviendas de la bolsa a menos de 500 m de un parque, con una mediana de 258 m a pie.
 - **Las franjas modelizadas no son viables tal como están dibujadas.** Su extremo sur cruza el estanque que almacena el agua de riego del campo. Dan un resultado algo mejor solo porque ese extremo llega a El Horno de Cal.
