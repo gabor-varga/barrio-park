@@ -56,6 +56,12 @@ python analysis/green_access.py \
   --outdir green_access_out
 ```
 
+To redraw the website's map from the run (it writes into `docs/index.html`):
+
+```bash
+python analysis/site_map.py green_access_out/layers.gpkg --html docs/index.html
+```
+
 The run downloads the OpenStreetMap walking network, parks and playgrounds, so it needs internet access
 and takes several minutes. Outputs go to `green_access_out/` (ignored by git); copy the ones worth keeping
 into `analysis/results/<date>/`. See `data/README.md` for the input files.

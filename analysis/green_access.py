@@ -1373,6 +1373,11 @@ def main():
     origins[bcols].replace([np.inf, -np.inf], np.nan).to_file(gpkg, layer="buildings", driver="GPKG")
     if hull is not None:
         gpd.GeoDataFrame(geometry=[hull], crs=CRS_M).to_file(gpkg, layer="pocket", driver="GPKG")
+        # Streets and building outlines around the pocket, for other maps (analysis/site_map.py).
+        around = gpd.GeoDataFrame(geometry=[rect(*hull.buffer(1500).bounds)], crs=CRS_M)
+        streets.clip(around).to_file(gpkg, layer="streets", driver="GPKG")
+        if footprints is not None:
+            footprints.clip(around).to_file(gpkg, layer="footprints", driver="GPKG")
     if len(golf_near):
         gk = [c for c in ("name", "area_m2", "geometry") if c in golf_near.columns]
         golf_near[gk].to_file(gpkg, layer="golf", driver="GPKG")
