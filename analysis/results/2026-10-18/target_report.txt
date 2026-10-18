@@ -1,0 +1,40 @@
+TARGET: Carretera de Chile 37, Las Palmas de Gran Canaria, Spain  (28.12298, -15.44674)
+Walking distance to nearest park >= 2,500 m2:   1,100 m
+Walking distance to nearest playground:           921 m
+Share of the city's residents with a park CLOSER than this address:        88.7%
+Share of the city's residents with a playground CLOSER than this address:  87.7%
+
+Five nearest parks (walking distance to the park edge):
+      1100 m  (unnamed)  [33,136 m2]
+      1101 m  (unnamed)  [4,258 m2]
+      1282 m  (unnamed)  [4,371 m2]
+      1376 m  Plaza Juan del Río Ayala  [8,054 m2]
+      1415 m  (unnamed)  [3,032 m2]
+Five nearest playgrounds:
+       921 m  (unnamed)  [n/a]
+      1157 m  (unnamed)  [n/a]
+      1158 m  (unnamed)  [n/a]
+      1170 m  (unnamed)  [n/a]
+      1249 m  (unnamed)  [n/a]
+
+BARRIO: Las Torres
+barrio                       Las Torres
+n_buildings                       494.0
+park_pct_within_300m               72.7
+park_pct_within_500m               79.3
+park_pct_within_1000m              86.4
+park_median_m                     154.4
+park_p90_m                      1,117.3
+playground_pct_within_300m         71.4
+playground_pct_within_500m         80.9
+playground_pct_within_1000m        96.5
+playground_median_m               196.5
+playground_p90_m                  807.5
+rank_worst_park                    74.0
+rank_worst_playground              76.0
+
+Rank on 'park_pct_within_500m' (1 = worst), by minimum park size:
+barrio      Las Torres
+min_1000m2        71.0
+min_2500m2        74.0
+min_5000m2        68.0

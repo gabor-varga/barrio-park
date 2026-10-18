@@ -1,0 +1,9 @@
+osmnx>=1.9
+geopandas
+networkx
+scipy
+matplotlib
+pandas
+numpy
+shapely>=2
+contextily  # optional: basemap tiles on the maps

@@ -1,0 +1,67 @@
+POCKET DEFINITION
+  connected cluster of residential buildings (linked within 150 m) whose nearest park AND nearest playground are both more than 750 m away on foot, seeded at the target
+
+WHO LIVES IN THE POCKET
+  residential buildings:            26
+  residential floor area:           134,641 m2
+  dwellings (Catastro):             816
+  residents:                        ~2,040  (Catastro dwellings x 2.5 people per household; includes empty and second homes)
+  streets (nearest walkable street per building):
+      24  Carretera de Chile
+       1  Calle Doctor Alfonso Chiscano Díaz
+       1  El Horno de Cal
+
+ACCESS FROM THE POCKET (weighted medians unless stated)
+  walk to nearest park >= 2,500 m2:      1,145 m   (worst building: 1,247 m)
+  walk to nearest playground:         877 m   (worst building: 1,124 m)
+
+GOLF SCENARIO (what if the golf course were a public park?)
+  golf course(s): Las Palmeras Golf (9.2 ha); (unnamed) (0.0 ha)
+  total golf area:                    9.2 ha  (= 19x the median park in this study)
+  assumption: reachable from every street node on or within 30 m of its edge
+
+                                      now     if golf were a park
+  pocket median walk to a park       1,145 m       220 m
+  pocket within 300 m of a park       0.0 %     77.2 %
+  pocket within 500 m of a park       0.0 %    100.0 %
+  city residents within 500 m        77.4 %     79.4 %
+  people citywide who would gain a park within 500 m: ~7,982  (Catastro dwellings x 2.5 people per household; includes empty and second homes)
+
+PARTIAL CONVERSION (a strip of the course on the side facing the pocket)
+  strip = golf land within the given width of its edge nearest the homes;
+  entrances anywhere along the strip's edge (it borders the residential streets)
+
+  width   area     % of course   pocket median   pocket <=300 m   pocket <=500 m   people gaining
+                                  walk to park                                      a park <=500 m
+    30 m   0.23 ha         3 %          220 m           76.5 %          100.0 %     ~3,628
+    40 m   0.44 ha         5 %          220 m           76.5 %          100.0 %     ~3,745
+    50 m   0.73 ha         8 %          220 m           76.5 %          100.0 %     ~4,502
+  (today: pocket median 1,145 m, 0 % within 500 m)
+
+  entrances assumed (street points within 30 m of the strip's edge):
+    strip 30 m 14 street point(s): Calle Doctor Alfonso Chiscano Díaz (12), El Horno de Cal (2)
+    strip 40 m 15 street point(s): Calle Doctor Alfonso Chiscano Díaz (13), El Horno de Cal (2)
+    strip 50 m 21 street point(s): Calle Doctor Alfonso Chiscano Díaz (16), (unnamed) (3), El Horno de Cal (2)
+
+PROPOSED PARK AREA(S) from proposed_parks.geojson
+  entrances: street nodes within 30 m of the area's edge (draw the area so it
+  touches the street you want the entrance on)
+
+  area                     size      pocket median   pocket <=300 m   pocket <=500 m   people gaining
+                                     walk to park                                      a park <=500 m
+  park_option_A            0.38 ha         369 m           22.8 %           73.5 %     ~5,208
+  park_option_B            0.55 ha         258 m           68.6 %          100.0 %     ~4,878
+  all areas together       0.93 ha         258 m           69.4 %          100.0 %     ~6,435
+
+  where each area sits and which streets it opens onto:
+    park_option_A            0 % on the golf course; entrances: 22 street point(s): (unnamed) (11), Calle Doctor Alfonso Chiscano Díaz (9), Carretera de Chile (2)
+    park_option_B           96 % on the golf course; entrances: 18 street point(s): Calle Doctor Alfonso Chiscano Díaz (15), (unnamed) (3)
+  (an area only helps if it opens onto the streets the homes use; see map_proposals.png)
+
+CAVEATS
+  - Walking routes come from OSM. A missing staircase or path would shorten the
+    real distances; check the routes on the ground before quoting them.
+  - The full-course scenario is an upper bound. The strip rows assume an entrance
+    on the residential side; a single gate elsewhere would give smaller gains.
+  - Strip shapes follow the pocket outline, not the course layout (greens, tees).
+    Check them on the map before proposing a specific area.

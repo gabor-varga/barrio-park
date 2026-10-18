@@ -1,0 +1,121 @@
+barrio,min_1000m2,min_2500m2,min_5000m2
+Almatriche Alto,1.0,1.0,1.0
+Casa Ayala,1.0,1.0,1.0
+Ciudad del Campo,,,
+Cañada Honda,1.0,1.0,1.0
+Costa Ayala,1.0,1.0,1.0
+Diseminado de Los Giles,1.0,1.0,1.0
+Diseminado de Los Hoyos,1.0,1.0,1.0
+Cuevas Blancas,1.0,1.0,1.0
+Diseminado de La Montañeta,1.0,1.0,1.0
+Diseminado de Tenoya,1.0,1.0,1.0
+Diseminado de Tafira,1.0,1.0,1.0
+Diseminado de Marzagán,,,
+El Pintor,1.0,1.0,1.0
+El Román,48.0,1.0,1.0
+La Milagrosa,1.0,1.0,1.0
+Ladera Alta,1.0,1.0,1.0
+Isla Perdida,1.0,1.0,1.0
+La Cantera,1.0,1.0,1.0
+La Data,1.0,1.0,1.0
+La Cruz,,,
+La Palma,1.0,1.0,1.0
+La Suerte,50.0,1.0,1.0
+La Montañeta,1.0,1.0,1.0
+Hoya Andrea,39.0,1.0,1.0
+El Secadero,1.0,1.0,1.0
+El Toscón,1.0,1.0,1.0
+El Zardo,1.0,1.0,1.0
+El Roque,1.0,1.0,1.0
+El Fondillo,1.0,1.0,1.0
+El Batán,1.0,1.0,1.0
+Las Majadillas,85.0,1.0,1.0
+Las Cuevas,45.0,1.0,1.0
+Salto del Negro,1.0,1.0,1.0
+Lomo de Enmedio,,,
+Los Hoyos,1.0,1.0,1.0
+Los Giles,1.0,1.0,1.0
+Montequemado,1.0,1.0,1.0
+Piletas,1.0,1.0,1.0
+Monteluz,1.0,1.0,1.0
+Masapez,,,
+Llanos de Mª Rivera,1.0,1.0,1.0
+San Francisco de Paula,1.0,1.0,1.0
+San Lorenzo,65.0,1.0,1.0
+San Roque,51.0,1.0,1.0
+Santa Margarita,1.0,1.0,1.0
+Siete Puertas,1.0,1.0,1.0
+Tres Palmas,,,
+Tenoya,1.0,1.0,1.0
+Las Perreras,49.0,1.0,1.0
+Lomo Verdejo,1.0,1.0,1.0
+Lomo El Sabinal,1.0,1.0,1.0
+Lomo Corcobado,,,
+Las Mesas,1.0,1.0,1.0
+Diseminado de San Lorenzo,40.0,47.0,53.0
+Diseminado de Almatriche,41.0,48.0,54.0
+San José del Álamo,42.0,49.0,55.0
+Diseminado de Tamaraceite,43.0,50.0,57.0
+El Lasso,44.0,51.0,58.0
+La Calzada,46.0,52.0,60.0
+Pedro Hidalgo,47.0,53.0,1.0
+Almatriche Bajo,56.0,54.0,61.0
+Pico Viento,52.0,55.0,62.0
+Diseminado del municipio de Las Palmas de Gran Canaria,53.0,56.0,1.0
+Casablanca I,58.0,57.0,1.0
+Tafira Alta,54.0,58.0,66.0
+Dragonal Bajo,55.0,59.0,67.0
+Zárate,57.0,60.0,63.0
+Risco Negro,63.0,61.0,69.0
+El Cardón,59.0,62.0,1.0
+Cuesta Ramón,60.0,63.0,70.0
+Díaz Casanova,,,
+Llano de Las Nieves,61.0,64.0,71.0
+Miller,67.0,65.0,64.0
+Hoya de La Plata,62.0,66.0,1.0
+San Antonio,84.0,67.0,72.0
+Campus Universitario,,,
+San Cristóbal,85.0,68.0,56.0
+Marzagán,64.0,69.0,73.0
+Jinámar,66.0,70.0,82.0
+Tafira Baja,68.0,71.0,83.0
+Guanarteme,82.0,72.0,74.0
+Lomo Blanco,69.0,73.0,79.0
+Las Torres,71.0,74.0,68.0
+San Francisco - San Nicolás,81.0,75.0,59.0
+Cruz del Ovejero,78.0,76.0,87.0
+Lomo Apolinario,70.0,77.0,76.0
+Tamaraceite,76.0,78.0,89.0
+San Juan - San José,72.0,79.0,78.0
+La Paterna,85.0,80.0,88.0
+Triana,85.0,81.0,81.0
+Llanos de La Barrera,73.0,82.0,92.0
+La Isleta,75.0,83.0,75.0
+Zurbarán,74.0,84.0,52.0
+Canalejas,85.0,85.0,94.0
+Vega de San José,,,
+Vegueta,85.0,86.0,65.0
+La Galera,77.0,87.0,96.0
+Casablanca III,79.0,88.0,93.0
+Ciudad del Mar,85.0,89.0,80.0
+Las Rehoyas,85.0,90.0,85.0
+Dragonal Alto,80.0,91.0,97.0
+Lomo Los Frailes,83.0,92.0,98.0
+Escaleritas,85.0,93.0,101.0
+La Minilla,,,
+Altavista,85.0,94.0,102.0
+La Feria,85.0,94.0,84.0
+Fincas Unidas,85.0,94.0,102.0
+Alcaravaneras,85.0,94.0,90.0
+Chumberas,85.0,94.0,102.0
+Ciudad Jardín,85.0,94.0,95.0
+Cuevas Torres,,,
+Don Zoilo,85.0,94.0,99.0
+Rehoyas Altas,,,
+Miller Industrial,85.0,94.0,102.0
+Los Tarahales,85.0,94.0,77.0
+Lugo,85.0,94.0,91.0
+Las Torres Industrial,,,
+Schamann,85.0,94.0,100.0
+San Lázaro (Urb. Siete Palmas),85.0,94.0,102.0
+Santa Catalina - Canteras,85.0,94.0,86.0
