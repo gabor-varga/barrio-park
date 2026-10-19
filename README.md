@@ -15,13 +15,14 @@ public park. Every home in the pocket would then be within 500 m of a park.
 | `docs/` | Campaign website (Spanish, with an English page in `docs/en/`), published with GitHub Pages |
 | `scripts/` | `build-site.sh`, which builds the website with the study for GitHub Pages |
 | `study/` | The study, in English and Spanish, with its maps |
-| `flyer/` | One-page A4 flyer in Spanish (open in a browser and print to PDF) |
+| `flyer/` | One-page A4 flyer in Spanish: `flyer.pdf` to print, `flyer.html` to edit |
 | `analysis/` | `green_access.py`, the proposal areas and the results of the latest run |
 | `data/` | Where to download the input data (not committed) |
 
 ## Publish the website with GitHub Pages
 
-The site is live at **https://gabor-varga.github.io/barrio-park/**. The workflow
+The site is live at **https://parque.barrionegrin.es/** (custom domain; the old address
+https://gabor-varga.github.io/barrio-park/ redirects there). The workflow
 `.github/workflows/pages.yml` builds and deploys it on every push to `master` that touches `docs/`,
 `study/` or the build script. It can also be run by hand from the **Actions** tab.
 
@@ -33,13 +34,25 @@ scripts/build-site.sh            # needs pandoc; writes _site/ (ignored by git)
 python -m http.server -d _site   # then open http://localhost:8000
 ```
 
-One-time setup on GitHub: **Settings → Pages → Build and deployment → Source: GitHub Actions**.
+One-time setup on GitHub: **Settings → Pages → Build and deployment → Source: GitHub Actions**, and
+**Custom domain: `parque.barrionegrin.es`** (then tick *Enforce HTTPS* once GitHub has the certificate).
+The domain's DNS (at Piensa Solutions) needs a CNAME record `parque` → `gabor-varga.github.io`.
 
 ## Print the flyer
 
-Open `flyer/flyer.html` in Chrome, press Ctrl+P (Cmd+P on a Mac), choose A4, margins **None**, and
-turn on **Background graphics**. Fill in the placeholders in brackets first: meeting date and place,
-contact, and the QR code (to https://gabor-varga.github.io/barrio-park/).
+`flyer/flyer.pdf` is ready to print: A4, one page, colour. On a home printer choose "Actual size"
+(not "Fit to page"); a print shop can use it as is.
+
+The QR code, the printed web address and the map are filled in by `scripts/flyer.py`. After changing
+the web address (for example to your own domain), run it again:
+
+```bash
+pip install segno weasyprint==62.3 pydyf==0.10.0
+python scripts/flyer.py https://parque.barrionegrin.es/ --pdf flyer/flyer.pdf
+```
+
+The map is copied from the website (`docs/index.html`), so redraw that first if the data changed.
+`flyer/flyer.html` can also be printed from a browser: A4, margins "None", background graphics on.
 
 ## Run the analysis
 

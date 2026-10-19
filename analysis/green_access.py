@@ -69,6 +69,7 @@ import matplotlib.pyplot as plt  # noqa: E402
 import shapely  # noqa: E402
 from matplotlib.collections import EllipseCollection  # noqa: E402
 from matplotlib.colors import Normalize  # noqa: E402
+from matplotlib.ticker import FuncFormatter  # noqa: E402
 import networkx as nx  # noqa: E402
 import numpy as np  # noqa: E402
 import osmnx as ox  # noqa: E402
@@ -107,6 +108,57 @@ RESIDENTIAL_KINDS = {
     "residential", "apartments", "house", "detached", "terrace",
     "semidetached_house", "dormitory", "bungalow", "yes",
 }
+# Every word on the maps, per language. Each map is written once per language: map_pocket.png
+# (English, for the English study) and map_pocket_es.png (Spanish), and so on.
+MAP_LANGS = ("en", "es")
+MAP_TEXT = {
+    "en": {
+        "home_dot": "one dot = one home (Catastro)",
+        "entrance": "entrance to {}",
+        "new_building": "new building, not yet in Catastro",
+        "proposed": "proposed park (A, B)",
+        "playground": "playground",
+        "pocket": "the pocket",
+        "cbar_now": "walking distance to nearest park today (m)",
+        "cbar_capped": "walking distance to nearest park (m, capped at 1500)",
+        "cbar_share": "% of residents within 500 m walk of a park",
+        "title_proposals": "Proposed park areas and their street entrances",
+        "title_pocket": "The pocket: walking distance to the nearest park, per home",
+        "title_access": "Walking access to parks, by barrio",
+        "title_ranking": "20 barrios with the longest walk to a park",
+        "within_500": "{} % within 500 m",
+        "median_walk": "median walk to the nearest park (m)",
+    },
+    "es": {
+        "home_dot": "un punto = una vivienda (Catastro)",
+        "entrance": "entrada a {}",
+        "new_building": "edificio nuevo, aún no en el Catastro",
+        "proposed": "parque propuesto (A, B)",
+        "playground": "parque infantil",
+        "pocket": "la zona",
+        "cbar_now": "distancia a pie al parque más cercano, hoy (m)",
+        "cbar_capped": "distancia a pie al parque más cercano (m, máx. 1.500)",
+        "cbar_share": "% de residentes a menos de 500 m a pie de un parque",
+        "title_proposals": "Áreas propuestas para el parque y sus entradas desde la calle",
+        "title_pocket": "La zona: distancia a pie al parque más cercano, por vivienda",
+        "title_access": "Acceso a pie a los parques, por barrio",
+        "title_ranking": "Los 20 barrios con más distancia a pie hasta un parque",
+        "within_500": "{} % a menos de 500 m",
+        "median_walk": "mediana a pie hasta el parque más cercano (m)",
+    },
+}
+
+
+def map_file(out, name, lang):
+    return out / (f"{name}.png" if lang == "en" else f"{name}_{lang}.png")
+
+
+def fmt_num(x, decimals, lang):
+    """1,234.5 in English, 1.234,5 in Spanish."""
+    t = f"{x:,.{decimals}f}"
+    return t.translate(str.maketrans(",.", ".,")) if lang == "es" else t
+
+
 # Maps: these streets are always named; other names come from the longest main roads in view.
 KEY_STREETS = ("Carretera de Chile", "Calle Doctor Alfonso Chiscano Díaz")
 MAIN_ROADS = {"trunk", "primary", "secondary", "tertiary"}
@@ -1171,22 +1223,23 @@ NEW_BUILDING_STYLE = dict(facecolor="#f6e3d6", edgecolor="#c2410c", hatch="////"
                           linestyle="--")
 
 
-def draw_new_buildings(ax, new_buildings, zorder=3):
+def draw_new_buildings(ax, new_buildings, zorder=3, label="new building, not yet in Catastro"):
     """Buildings finished or under construction that are not in the Catastro data yet."""
     if new_buildings is None or not len(new_buildings):
         return None
     new_buildings.plot(ax=ax, zorder=zorder, **NEW_BUILDING_STYLE)
-    return Patch(label="new building, not yet in Catastro", **NEW_BUILDING_STYLE)
+    return Patch(label=label, **NEW_BUILDING_STYLE)
 
 
 def plot_proposals(out, origins, hull, golf, extras, streets=None, footprints=None,
-                   new_buildings=None):
+                   new_buildings=None, lang="en"):
     """Close-up of the pocket, the west of the golf course and the hand-drawn areas.
 
     Each area is labelled with the part of its name before ':' (e.g. "A: abandoned plot" -> "A").
     """
     if hull is None:
         return
+    t = MAP_TEXT[lang]
     prop, ents = extras.get("proposals"), extras.get("entrances")
     shapes = [hull] + ([] if prop is None else list(prop.geometry))
     minx, miny, maxx, maxy = gpd.GeoSeries(shapes, crs=CRS_M).total_bounds
@@ -1211,7 +1264,7 @@ def plot_proposals(out, origins, hull, golf, extras, streets=None, footprints=No
                     weight="bold", color="#10305a", zorder=8,
                     path_effects=[pe.withStroke(linewidth=4, foreground="white")])
     o = origins.cx[box[0]:box[2], box[1]:box[3]]
-    new_patch = draw_new_buildings(ax, new_buildings)
+    new_patch = draw_new_buildings(ax, new_buildings, label=t["new_building"])
     sc = draw_dwellings(ax, o, footprints, radius=1.3)
     if ents is not None and len(ents) and prop is not None:
         # Every street point within 30 m of an area counts as an entrance; show one per 60 m.
@@ -1222,17 +1275,18 @@ def plot_proposals(out, origins, hull, golf, extras, streets=None, footprints=No
             marker, face = styles[i % len(styles)]
             ax.scatter(e.geometry.x, e.geometry.y, marker=marker, s=60, facecolor=face,
                        edgecolor="#111111", linewidth=1.3, zorder=6,
-                       label=f"entrance to {str(lab).split(':')[0]}")
+                       label=t["entrance"].format(str(lab).split(":")[0]))
     ax.set_xlim(box[0], box[2])
     ax.set_ylim(box[1], box[3])
     x0, y0 = box[0] + 30, box[1] + 30
     ax.plot([x0, x0 + 100], [y0, y0], color="black", linewidth=3, zorder=9)
     ax.text(x0 + 50, y0 + 8, "100 m", ha="center", zorder=9)
     north_arrow(ax, box)
-    fig.colorbar(sc, ax=ax, shrink=0.5, label="walking distance to nearest park today (m)")
+    cb = fig.colorbar(sc, ax=ax, shrink=0.5, label=t["cbar_now"])
+    cb.ax.yaxis.set_major_formatter(FuncFormatter(lambda v, _: fmt_num(v, 0, lang)))
     handles, _ = ax.get_legend_handles_labels()
     handles.insert(0, Line2D([], [], marker="o", ls="", color="#e0603a", ms=5,
-                             label="one dot = one home (Catastro)"))
+                             label=t["home_dot"]))
     if new_patch is not None:
         handles.append(new_patch)
     ax.legend(handles=handles, loc="upper left", fontsize=9, framealpha=0.95)
@@ -1244,15 +1298,16 @@ def plot_proposals(out, origins, hull, golf, extras, streets=None, footprints=No
     if ents is not None and len(ents):
         avoid += list(ents.geometry.buffer(8))
     label_streets(ax, streets, box, n_main=4, fontsize=9, avoid=avoid)
-    ax.set_title("Proposed park areas and their street entrances")
-    fig.savefig(out / "map_proposals.png", dpi=170, bbox_inches="tight")
+    ax.set_title(t["title_proposals"])
+    fig.savefig(map_file(out, "map_proposals", lang), dpi=170, bbox_inches="tight")
     plt.close(fig)
 
 
 def plot_pocket(out, origins, hull, parks_big, play, golf, proposals=None, streets=None,
-                footprints=None, new_buildings=None):
+                footprints=None, new_buildings=None, lang="en"):
     if hull is None:
         return
+    t = MAP_TEXT[lang]
     minx, miny, maxx, maxy = hull.bounds
     pad = 1300
     box = (minx - pad, miny - pad, maxx + pad, maxy + pad)
@@ -1263,7 +1318,8 @@ def plot_pocket(out, origins, hull, parks_big, play, golf, proposals=None, stree
         golf.plot(ax=ax, facecolor="#e8dcb5", edgecolor="#8a7a3f", hatch="//", linewidth=1, zorder=2)
         for _, g in golf[golf["area_m2"] >= 1e4].iterrows():  # skip slivers
             gx0, gy0, gx1, gy1 = g.geometry.bounds  # name beside the course, clear of the streets
-            ax.text(gx1 + 40, (gy0 + gy1) / 2, f"Las Palmeras Golf\n{g['area_m2'] / 1e4:,.1f} ha",
+            ax.text(gx1 + 40, (gy0 + gy1) / 2,
+                    f"Las Palmeras Golf\n{fmt_num(g['area_m2'] / 1e4, 1, lang)} ha",
                     ha="left", va="center", fontsize=10, color="#5c4f1f", weight="bold", zorder=8,
                     path_effects=[pe.withStroke(linewidth=3, foreground="white")])
     if proposals is not None and len(proposals):
@@ -1274,13 +1330,13 @@ def plot_pocket(out, origins, hull, parks_big, play, golf, proposals=None, stree
                     weight="bold", color="#10305a", zorder=8,
                     path_effects=[pe.withStroke(linewidth=3, foreground="white")])
     parks_big.cx[box[0]:box[2], box[1]:box[3]].plot(ax=ax, color="#2e8b57", alpha=0.7, zorder=2)
-    new_patch = draw_new_buildings(ax, new_buildings)
+    new_patch = draw_new_buildings(ax, new_buildings, label=t["new_building"])
     sc = draw_dwellings(ax, o, footprints, radius=1.8, zorder=3)
     if len(play):
         pp = play.geometry.representative_point()
         pp = pp.cx[box[0]:box[2], box[1]:box[3]]
         ax.scatter(pp.x, pp.y, marker="^", s=55, c="royalblue", edgecolor="white",
-                   label="playground", zorder=4)
+                   label=t["playground"], zorder=4)
     ax.set_xlim(box[0], box[2])
     ax.set_ylim(box[1], box[3])
     # 500 m scale bar
@@ -1288,13 +1344,14 @@ def plot_pocket(out, origins, hull, parks_big, play, golf, proposals=None, stree
     ax.plot([x0, x0 + 500], [y0, y0], color="black", linewidth=3, zorder=9)
     ax.text(x0 + 250, y0 + 40, "500 m", ha="center", zorder=9)
     north_arrow(ax, box)
-    fig.colorbar(sc, ax=ax, shrink=0.6, label="walking distance to nearest park (m, capped at 1500)")
+    cb = fig.colorbar(sc, ax=ax, shrink=0.6, label=t["cbar_capped"])
+    cb.ax.yaxis.set_major_formatter(FuncFormatter(lambda v, _: fmt_num(v, 0, lang)))
     handles, _ = ax.get_legend_handles_labels()
     if proposals is not None and len(proposals):
         handles.insert(0, Patch(facecolor="#2b6cb0", alpha=0.6, edgecolor="#1a4480",
-                                label="proposed park (A, B)"))
+                                label=t["proposed"]))
     handles.insert(0, Line2D([], [], marker="o", ls="", color="#e0603a", ms=4,
-                             label="one dot = one home (Catastro)"))
+                             label=t["home_dot"]))
     if new_patch is not None:
         handles.append(new_patch)
     ax.legend(handles=handles, loc="upper right", framealpha=0.95)
@@ -1303,32 +1360,33 @@ def plot_pocket(out, origins, hull, parks_big, play, golf, proposals=None, stree
     if proposals is not None and len(proposals):
         avoid.append(union(proposals.geometry).buffer(40))
     label_streets(ax, streets, box, n_main=8, fontsize=8, avoid=avoid)
-    ax.set_title("The pocket: walking distance to the nearest park, per building")
-    fig.savefig(out / "map_pocket.png", dpi=170, bbox_inches="tight")
+    ax.set_title(t["title_pocket"])
+    fig.savefig(map_file(out, "map_pocket", lang), dpi=170, bbox_inches="tight")
     plt.close(fig)
 
 
 # ----------------------------------------------------------------------------
 # Plots
 # ----------------------------------------------------------------------------
-def make_plots(out, barrios, table, parks_big, play, hull, barrio, min_buildings):
+def make_plots(out, barrios, table, parks_big, play, hull, barrio, min_buildings, lang="en"):
+    t_ = MAP_TEXT[lang]
     b = barrios.join(table[RANK_METRIC], on="barrio")
     fig, ax = plt.subplots(figsize=(11, 11))
     b.plot(column=RANK_METRIC, cmap="RdYlGn", vmin=0, vmax=100, legend=True, ax=ax,
            edgecolor="white", linewidth=0.3, missing_kwds={"color": "lightgrey"},
-           legend_kwds={"label": "% of residents within 500 m walk of a park"})
+           legend_kwds={"label": t_["cbar_share"]})
     if len(parks_big):
         parks_big.plot(ax=ax, color="darkgreen", alpha=0.6)
     if len(play):
         pp = play.geometry.representative_point()
-        ax.scatter(pp.x, pp.y, s=14, c="royalblue", label="playground", zorder=3)
+        ax.scatter(pp.x, pp.y, s=14, c="royalblue", label=t_["playground"], zorder=3)
     if hull is not None:  # where the pocket is; no single address is marked on any map
         gpd.GeoSeries([hull.buffer(60)], crs=CRS_M).boundary.plot(
-            ax=ax, color="black", linewidth=2, zorder=4, label="the pocket")
+            ax=ax, color="black", linewidth=2, zorder=4, label=t_["pocket"])
     ax.legend(loc="lower left")
     ax.set_axis_off()
-    ax.set_title("Walking access to parks, by barrio")
-    fig.savefig(out / "map_park_access.png", dpi=170, bbox_inches="tight")
+    ax.set_title(t_["title_access"])
+    fig.savefig(map_file(out, "map_park_access", lang), dpi=170, bbox_inches="tight")
     plt.close(fig)
 
     # Many barrios tie at 0 % within 500 m, so rank by median walk instead and
@@ -1339,11 +1397,11 @@ def make_plots(out, barrios, table, parks_big, play, hull, barrio, min_buildings
     colors = ["crimson" if n == barrio else "steelblue" for n in t.index]
     ax.barh(t.index[::-1], t["park_median_m"][::-1], color=colors[::-1])
     for y, (med, pct) in enumerate(zip(t["park_median_m"][::-1], t[RANK_METRIC][::-1])):
-        ax.text(med + 40, y, f"{pct:.0f} % within 500 m", va="center", fontsize=8)
+        ax.text(med + 40, y, t_["within_500"].format(f"{pct:.0f}"), va="center", fontsize=8)
     ax.set_xlim(0, t["park_median_m"].max() * 1.3)
-    ax.set_xlabel("median walk to the nearest park (m)")
-    ax.set_title("20 barrios with the longest walk to a park")
-    fig.savefig(out / "ranking_worst20.png", dpi=170, bbox_inches="tight")
+    ax.set_xlabel(t_["median_walk"])
+    ax.set_title(t_["title_ranking"])
+    fig.savefig(map_file(out, "ranking_worst20", lang), dpi=170, bbox_inches="tight")
     plt.close(fig)
 
 
@@ -1461,13 +1519,16 @@ def main():
         a, net, origins, parks_big, play, golf, pt)
     (out / "pocket_report.txt").write_text(pocket_txt, encoding="utf-8")
     print("\n" + pocket_txt)
-    make_plots(out, barrios, table, parks_big, play, hull, barrio, a.min_buildings)
+    for lang in MAP_LANGS:
+        make_plots(out, barrios, table, parks_big, play, hull, barrio, a.min_buildings, lang)
     streets = street_edges(net)
     footprints = building_footprints(a.catastro) if a.catastro else None
     new_buildings = read_vector(a.new_buildings) if a.new_buildings else None
-    plot_pocket(out, origins, hull, parks_big, play, golf_near, extras.get("proposals"),
-                streets, footprints, new_buildings)
-    plot_proposals(out, origins, hull, golf_near, extras, streets, footprints, new_buildings)
+    for lang in MAP_LANGS:
+        plot_pocket(out, origins, hull, parks_big, play, golf_near, extras.get("proposals"),
+                    streets, footprints, new_buildings, lang)
+        plot_proposals(out, origins, hull, golf_near, extras, streets, footprints, new_buildings,
+                       lang)
 
     gpkg = out / "layers.gpkg"
     barrios.join(table, on="barrio").to_file(gpkg, layer="barrios", driver="GPKG")

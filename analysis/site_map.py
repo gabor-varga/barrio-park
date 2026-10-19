@@ -16,6 +16,7 @@ import re
 from pathlib import Path
 
 import geopandas as gpd
+import numpy as np
 from shapely.geometry import LineString, Point, box as rect
 from shapely.ops import linemerge, substring, unary_union
 
@@ -69,8 +70,8 @@ STYLE = """
 .mapa .road{stroke:var(--map-road,#ffffff)}
 .mapa .minor.casing{stroke-width:5}.mapa .minor.road{stroke-width:3}
 .mapa .main.casing{stroke-width:10}.mapa .main.road{stroke-width:7.5}
-.mapa text{fill:var(--map-text,#15201a);paint-order:stroke;stroke:var(--map-halo,#f3f0e8);
-  stroke-width:4px;stroke-linejoin:round}
+.mapa text{fill:var(--map-text,#15201a)}
+.mapa text.halo{fill:var(--map-halo,#f3f0e8);stroke:var(--map-halo,#f3f0e8);stroke-width:4px;stroke-linejoin:round}
 .mapa .street{font-size:18px;font-weight:700;letter-spacing:.02em}
 .mapa .place{font-size:19px;font-weight:700}
 .mapa .note{font-size:16px;font-weight:400;fill:var(--map-muted,#4a554e)}
@@ -108,12 +109,15 @@ def path_d(geom, tf):
     return "".join(out)
 
 
-def text(x, y, s, cls, anchor="middle", extra=""):
-    return f'<text class="{cls}" x="{x}" y="{y}" text-anchor="{anchor}"{extra}>{s}</text>'
+def text(x, y, s, cls, anchor="middle", extra="", halo=True):
+    """A label, with a copy underneath in the background colour as a halo (drawn as its own
+    element rather than with paint-order, which print renderers ignore)."""
+    t = f'<text class="{{}}" x="{x}" y="{y}" text-anchor="{anchor}"{extra}>{s}</text>'
+    return (t.format(cls + " halo") if halo else "") + t.format(cls)
 
 
 def street_label(streets, frame, name, label, where, tf, length_m, idx, avoid):
-    """A straight path along the street (left to right) and the text centred on it.
+    """The street's name, centred on a straight stretch of it and turned to follow it.
 
     Takes the straightest stretch of the street long enough for the text, clear of `avoid`,
     preferring stretches near `where` (0..1 along the street).
@@ -143,10 +147,11 @@ def street_label(streets, frame, name, label, where, tf, length_m, idx, avoid):
     steep = abs(by - ay) > abs(bx - ax)
     if (steep and ay > by) or (not steep and ax > bx):  # steep: read upwards; else left to right
         chord = LineString(chord.coords[::-1])
-    pid = f"mapa-calle-{idx}"
-    return (f'<path id="{pid}" d="{path_d(chord, tf)}" fill="none"/>',
-            f'<text class="street" dy="0.35em"><textPath href="#{pid}" startOffset="50%" '
-            f'text-anchor="middle">{label}</textPath></text>')
+    # Plain rotated text, not textPath: print renderers (WeasyPrint, for the flyer) handle it.
+    (x0, y0), (x1, y1) = tf(*chord.coords[0]), tf(*chord.coords[-1])
+    angle = round(np.degrees(np.arctan2(y1 - y0, x1 - x0)), 1)
+    mx, my = round((x0 + x1) / 2, 1), round((y0 + y1) / 2, 1)
+    return "", text(mx, my, label, "street", extra=f' dy="0.35em" transform="rotate({angle} {mx} {my})"')
 
 
 def build_svg(gpkg, lang="es"):
@@ -208,7 +213,7 @@ def build_svg(gpkg, lang="es"):
         letter = str(r["label"]).split(":")[0]
         c = r.geometry.representative_point()
         cx, cy = tf(c.x, c.y)
-        labels.append(text(cx, cy + 12, letter, "letter"))
+        labels.append(text(cx, cy + 12, letter, "letter", halo=False))
         letters[letter] = r.geometry
     callouts = {k: words[k] for k in ("A", "B")}
     for letter, geom in letters.items():

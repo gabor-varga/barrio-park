@@ -53,10 +53,14 @@ The repo owner lives at Ctra. de Chile 37 and leads the campaign.
   keep their homes), in a grid filling each building's footprint.
 - `study/`: markdown export of the study. The live, editable study is a Claude Docs document:
   https://claude.ai/code/artifact/e5e4bef3-f24d-4a6c-831b-1d688d774c70
-- `flyer/flyer.html`: static copy of the A4 flyer (Claude design canvas:
-  https://claude.ai/artifact/Fd2qSGw1sqkF3BFhnmQQNW).
+- `flyer/flyer.html` + `flyer/flyer.pdf`: the A4 flyer (headline, the ask with the website's map,
+  1,145 m → 258 m, sign-up QR). `scripts/flyer.py <url> --pdf flyer/flyer.pdf` fills in the QR code,
+  printed address and map (copied from `docs/index.html`, colours fixed for print) and prints the PDF
+  with WeasyPrint. No meeting date or contact on it: the sign-up form covers both. (Older design canvas:
+  https://claude.ai/artifact/Fd2qSGw1sqkF3BFhnmQQNW.)
 - `docs/index.html` (Spanish) and `docs/en/index.html` (English, linked by a switch at the top of each):
-  campaign website, live at https://gabor-varga.github.io/barrio-park/ (older copy at
+  campaign website, live at https://parque.barrionegrin.es/ (custom domain bought at Piensa Solutions;
+  DNS: CNAME `parque` → `gabor-varga.github.io`; the github.io address redirects there) (older copy at
   https://claude.ai/artifact/Q3spwuWrBJaGMjUxUEUUEF). Its "Apúntate aquí" button opens the Tally sign-up
   form (https://tally.so/r/VpEBNv: name, phone, street, consent); the meeting date says "por anunciar".
 - `docs/site.css` is shared by both pages. `analysis/site_map.py` draws the orientation map (inline SVG
@@ -71,7 +75,9 @@ The repo owner lives at Ctra. de Chile 37 and leads the campaign.
 
 - [x] Sign-up form (Tally, https://tally.so/r/VpEBNv), linked from `docs/index.html`.
 - [ ] Meeting date and place, contact; fill them into the site and flyer.
-- [ ] QR code on the flyer pointing to https://gabor-varga.github.io/barrio-park/.
+- [x] QR code on the flyer, pointing to https://parque.barrionegrin.es/.
+- [ ] Custom domain live: CNAME + TXT at Piensa Solutions, domain verified on GitHub, repo Pages custom
+      domain set, HTTPS enforced. Check the QR works before printing.
 - [ ] Number of homes in the three new buildings (`analysis/new_buildings.geojson`), to count them in the pocket.
 - [ ] Check in the Catastro who owns plot A.
 - [ ] Household size from INE (census section), including the share of children under 15.

@@ -4,18 +4,18 @@ Oct 17, 2026 · @Gabor Varga
 
 ## Resumen
 
-Unos 2.000 vecinos, en 816 viviendas de la Carretera de Chile y la Calle Doctor Alfonso Chiscano Díaz, viven a más de 1 km a pie del parque público más cercano y a casi 900 m del parque infantil más cercano. Eso los sitúa entre el 12% de residentes peor servidos de Las Palmas de Gran Canaria.
+Unos 2.000 vecinos, en 816 viviendas de la Carretera de Chile y la Calle Doctor Alfonso Chiscano Díaz, viven a más de 1 km a pie del parque público más cercano y a casi 900 m del parque infantil más cercano. Eso los sitúa entre el 12% de residentes peor servidos de Las Palmas de Gran Canaria. En este estudio llamamos a estas calles «la zona sin parques de la Carretera de Chile y la Calle Doctor Alfonso Chiscano Díaz», o simplemente «la zona».
 
 Junto a estas viviendas se encuentran Las Palmeras Golf, un campo de golf municipal de 9,2 ha que no está abierto al público como parque, y un solar abandonado donde se empezó un centro de bienestar que nunca se terminó.
 
-| Indicador (bolsa de 26 edificios de viviendas, 816 viviendas) | Valor |
+| Indicador (la zona: 26 edificios de viviendas, 816 viviendas) | Valor |
 | --- | --- |
 | Mediana a pie hasta el parque público más cercano (≥ 2.500 m²) | 1.145 m |
 | Mediana a pie hasta el parque infantil más cercano | 877 m |
-| Residentes de la ciudad con un parque más cerca que el centro de la bolsa | 88,7% |
-| Residentes de la ciudad con un parque infantil más cerca que el centro de la bolsa | 87,7% |
+| Residentes de la ciudad con un parque más cerca que el centro de la zona | 88,7% |
+| Residentes de la ciudad con un parque infantil más cerca que el centro de la zona | 87,7% |
 
-Pedimos al Ayuntamiento que convierta el solar abandonado (0,38 ha) y una franja del campo de golf municipal junto a la Calle Doctor Alfonso Chiscano Díaz (0,55 ha, cerca del 6% del campo) en un parque público y gratuito con zona de juegos infantiles. Juntos dejarían todas las viviendas de la bolsa a menos de 500 m de un parque y darían un parque a menos de 500 m a unas 6.400 personas de la ciudad.
+Pedimos al Ayuntamiento que convierta el solar abandonado (0,38 ha) y una franja del campo de golf municipal junto a la Calle Doctor Alfonso Chiscano Díaz (0,55 ha, cerca del 6% del campo) en un parque público y gratuito con zona de juegos infantiles. Juntos dejarían todas las viviendas de la zona a menos de 500 m de un parque y darían un parque a menos de 500 m a unas 6.400 personas de la ciudad.
 
 ## Contexto
 
@@ -37,7 +37,7 @@ Como el terreno es público y la ciudad se reservó el derecho a recuperarlo, de
 
 **La ciudad se ha comprometido con un espacio público pensado para la infancia.** Las Palmas de Gran Canaria es Ciudad Amiga de la Infancia de UNICEF desde 2021 ([Ayuntamiento](https://www.laspalmasgc.es/es/ayuntamiento/prensa-y-comunicacion/notas-de-prensa/nota-de-prensa/El-Ayuntamiento-reune-al-consejo-de-la-Infancia-y-la-Adolescencia-tras-conocer-que-Las-Palmas-de-Gran-Canaria-sera-Ciudad-Amiga-de-la-Infancia/)) y renovó el reconocimiento en abril de 2026 ([RTVC](https://rtvc.es/cinco-municipios-canarios-renuevan-como-ciudades-amigas-de-la-infancia-16-abril-2026/)). Su II Plan Municipal de Infancia y Adolescencia 2025–2028, aprobado por el Pleno en mayo de 2025, propone crear parques y zonas deportivas adaptadas a las necesidades de la infancia y la adolescencia ([Canarias7](https://www.canarias7.es/canarias/gran-canaria/las-palmas-de-gran-canaria/siga-directo-pleno-ayuntamiento-palmas-gran-canaria-20250528225417-di.html)).
 
-La bolsa es justo donde falta ese compromiso: un barrio de bloques de viviendas, con más de 30 viviendas por edificio de media, donde viven muchas familias jóvenes, sin parque a menos de un kilómetro a pie ni parque infantil a menos de 750 m.
+La zona es justo donde falta ese compromiso: un barrio de bloques de viviendas, con más de 30 viviendas por edificio de media, donde viven muchas familias jóvenes, sin parque a menos de un kilómetro a pie ni parque infantil a menos de 750 m.
 
 ## Metodología
 
@@ -48,35 +48,35 @@ Para cada edificio residencial de la ciudad medimos la distancia a pie, por call
 - **Red peatonal:** calles, senderos y escaleras de OpenStreetMap. La distancia se mide hasta el borde del parque, lo que favorece ligeramente la situación actual. Las calles se muestrean cada 20 m, y se puede entrar en un parque desde cualquier punto de calle a menos de 30 m de su borde.
 - **Residentes:** el número de viviendas de cada edificio procede de los datos abiertos de edificios del Catastro. Los residentes se estiman a razón de 2,5 personas por vivienda; el recuento incluye posibles viviendas vacías o secundarias.
 - **Barrios:** delimitación oficial del Instituto Canario de Estadística (ISTAC, edición 2018), con los nombres de barrios de 2024.
-- **La bolsa:** el grupo continuo de viviendas, a partir de una vivienda en mitad de la Carretera de Chile, en el que tanto el parque como el parque infantil más cercanos están a más de 750 m a pie. Los edificios a menos de 150 m entre sí cuentan como un mismo grupo. El grupo lo identificó el análisis, no se dibujó a mano.
+- **La zona sin parques («la zona»):** el grupo continuo de viviendas, a partir de una vivienda en mitad de la Carretera de Chile, en el que tanto el parque como el parque infantil más cercanos están a más de 750 m a pie. Los edificios a menos de 150 m entre sí cuentan como un mismo grupo. El grupo lo identificó el análisis, no se dibujó a mano.
 
 ## Resultados
 
-Las viviendas de la Carretera de Chile y la Calle Doctor Alfonso Chiscano Díaz forman una bolsa clara sin parque ni zona de juegos a una distancia razonable a pie, dentro de un barrio que por lo demás está bien servido.
+Las viviendas de la Carretera de Chile y la Calle Doctor Alfonso Chiscano Díaz forman un grupo bien delimitado, sin parque ni zona de juegos a una distancia razonable a pie, dentro de un barrio que por lo demás está bien servido.
 
-![Distancia a pie hasta el parque más cercano en torno a la bolsa. Cada punto es una vivienda (Catastro), coloreada según la distancia de su edificio al parque más cercano; rojo = más de 1 km. La zona rayada es Las Palmeras Golf; A y B, en azul, son las zonas propuestas para el parque. En gris: calles y edificios; rayados: edificios nuevos que aún no figuran en el Catastro.](img/map_pocket.png)
+![Distancia a pie hasta el parque más cercano en torno a la zona. Cada punto es una vivienda (Catastro), coloreada según la distancia de su edificio al parque más cercano; rojo = más de 1 km. El área rayada es Las Palmeras Golf; A y B, en azul, son las áreas propuestas para el parque. En gris: calles y edificios; rayados: edificios nuevos que aún no figuran en el Catastro.](img/map_pocket_es.png)
 
-**1. La bolsa está entre los lugares peor servidos de la ciudad.** Desde una vivienda en el centro de la bolsa, en la Carretera de Chile, el parque público más cercano está a 1.100 m a pie y el parque infantil más cercano a 921 m. El 88,7% de los residentes de la ciudad vive más cerca de un parque, y el 87,7% más cerca de un parque infantil.
+**1. La zona está entre los lugares peor servidos de la ciudad.** Desde una vivienda en el centro de la zona, en la Carretera de Chile, el parque público más cercano está a 1.100 m a pie y el parque infantil más cercano a 921 m. El 88,7% de los residentes de la ciudad vive más cerca de un parque, y el 87,7% más cerca de un parque infantil.
 
-**2. Viven en ella unas 2.000 personas.** El Catastro registra 816 viviendas en los 26 edificios residenciales de la bolsa. Por calle más cercana, 24 edificios están en la Carretera de Chile, 1 en la Calle Doctor Alfonso Chiscano Díaz y 1 en El Horno de Cal. A 2,5 personas por vivienda son unos 2.000 residentes; el recuento incluye posibles viviendas vacías o secundarias.
+**2. Viven en ella unas 2.000 personas.** El Catastro registra 816 viviendas en los 26 edificios residenciales de la zona. Por calle más cercana, 24 edificios están en la Carretera de Chile, 1 en la Calle Doctor Alfonso Chiscano Díaz y 1 en El Horno de Cal. A 2,5 personas por vivienda son unos 2.000 residentes; el recuento incluye posibles viviendas vacías o secundarias.
 
-**3. Ninguna vivienda de la bolsa está a menos de 750 m de un parque ni de un parque infantil.** La mediana a pie es de 1.145 m hasta un parque y 877 m hasta un parque infantil. El edificio peor situado está a 1.247 m de un parque y a 1.124 m de un parque infantil.
+**3. Ninguna vivienda de la zona está a menos de 750 m de un parque ni de un parque infantil.** La mediana a pie es de 1.145 m hasta un parque y 877 m hasta un parque infantil. El edificio peor situado está a 1.247 m de un parque y a 1.124 m de un parque infantil.
 
-**4. Las medias por barrio ocultan la bolsa.** Las Torres en su conjunto tiene al 79% de sus residentes a menos de 500 m de un parque y ocupa el puesto 74 de 106 barrios (1 = peor). Su déficit se concentra en el borde norte: el 14% de los residentes de Las Torres está a más de 1 km de un parque, y la bolsa es donde viven.
+**4. Las medias por barrio ocultan la zona.** Las Torres en su conjunto tiene al 79% de sus residentes a menos de 500 m de un parque y ocupa el puesto 74 de 106 barrios (1 = peor). Su déficit se concentra en el borde norte: el 14% de los residentes de Las Torres está a más de 1 km de un parque, y la zona es donde viven.
 
 | Zona | Residentes a menos de 500 m de un parque | Mediana a pie hasta un parque |
 | --- | --- | --- |
-| La bolsa | 0% | 1.145 m |
+| La zona | 0% | 1.145 m |
 | Las Torres (todo el barrio) | 79% | 154 m |
 | Toda la ciudad | 77% | – |
 
-![Porcentaje de residentes a menos de 500 m a pie de un parque, por barrio (delimitación ISTAC, viviendas del Catastro). El contorno negro marca la bolsa.](img/map_park_access.png)
+![Porcentaje de residentes a menos de 500 m a pie de un parque, por barrio (delimitación ISTAC, viviendas del Catastro). El contorno negro marca la zona.](img/map_park_access_es.png)
 
 ## Dónde podría ir un parque
 
-El solar abandonado más una franja del campo de golf junto a la Calle Doctor Alfonso Chiscano Díaz dejarían todas las viviendas de la bolsa a menos de 500 m de un parque, usando cerca del 6% del campo. Modelizamos el campo entero y dos zonas dibujadas por los vecinos: el solar abandonado y una franja entre la Calle Doctor Alfonso Chiscano Díaz y la red de protección del campo.
+El solar abandonado más una franja del campo de golf junto a la Calle Doctor Alfonso Chiscano Díaz dejarían todas las viviendas de la zona a menos de 500 m de un parque, usando cerca del 6% del campo. Modelizamos el campo entero y dos áreas dibujadas por los vecinos: el solar abandonado y una franja entre la Calle Doctor Alfonso Chiscano Díaz y la red de protección del campo.
 
-| Zona convertida en parque público | Tamaño | Terreno del campo de golf usado | Bolsa: mediana a pie hasta un parque | Viviendas de la bolsa a menos de 500 m | Personas de la ciudad que ganan un parque a menos de 500 m |
+| Área convertida en parque público | Tamaño | Terreno del campo de golf usado | Zona: mediana a pie hasta un parque | Viviendas de la zona a menos de 500 m | Personas de la ciudad que ganan un parque a menos de 500 m |
 | --- | --- | --- | --- | --- | --- |
 | Hoy | – | – | 1.145 m | 0% | – |
 | **Propuesta: solar abandonado + franja de los vecinos** | **0,93 ha** | **6%** | **258 m** | **100%** | **\~6.400** |
@@ -84,14 +84,14 @@ El solar abandonado más una franja del campo de golf junto a la Calle Doctor Al
 | Solo la franja de los vecinos | 0,55 ha | 6% | 258 m | 100% | \~4.900 |
 | Todo el campo de golf | 9,2 ha | 100% | 220 m | 100% | \~8.000 |
 
-![Las zonas propuestas, en azul: A, el solar abandonado, y B, la franja de los vecinos junto a la Calle Doctor Alfonso Chiscano Díaz. Los triángulos marcan puntos de calle por los que se puede entrar a cada zona (se muestra uno cada 60 m). Cada punto es una vivienda. Rayados: tres edificios nuevos, terminados o en construcción, que aún no figuran en el Catastro y no se han contado.](img/map_proposals.png)
+![Las áreas propuestas, en azul: A, el solar abandonado, y B, la franja de los vecinos junto a la Calle Doctor Alfonso Chiscano Díaz. Los triángulos marcan puntos de calle por los que se puede entrar a cada área (se muestra uno cada 60 m). Cada punto es una vivienda. Rayados: tres edificios nuevos, terminados o en construcción, que aún no figuran en el Catastro y no se han contado.](img/map_proposals_es.png)
 
-- **La franja de los vecinos es la opción viable.** Solo una valla baja la separa de la acera de la Calle Doctor Alfonso Chiscano Díaz, y la red alta que detiene las bolas del campo de prácticas ya recorre su lado este. Contiene cuatro pequeños greens de práctica de putt. Por sí sola deja todas las viviendas de la bolsa a menos de 500 m de un parque, con una mediana de 258 m a pie.
-- **El solar abandonado llega a más gente.** No usa terreno del golf y da a unas 5.200 personas de la ciudad un parque a menos de 500 m, muchas de ellas en el barrio al norte del campo. Por sí solo cubre tres cuartas partes de la bolsa.
+- **La franja de los vecinos es la opción viable.** Solo una valla baja la separa de la acera de la Calle Doctor Alfonso Chiscano Díaz, y la red alta que detiene las bolas del campo de prácticas ya recorre su lado este. Contiene cuatro pequeños greens de práctica de putt. Por sí sola deja todas las viviendas de la zona a menos de 500 m de un parque, con una mediana de 258 m a pie.
+- **El solar abandonado llega a más gente.** No usa terreno del golf y da a unas 5.200 personas de la ciudad un parque a menos de 500 m, muchas de ellas en el barrio al norte del campo. Por sí solo cubre tres cuartas partes de la zona.
 - **Juntos sirven a las dos zonas.** El solar y la franja de los vecinos suman 0,93 ha, de las que 0,53 ha son terreno del golf. Unas 6.400 personas de la ciudad ganarían un parque a menos de 500 m.
 - **Todo el campo es el máximo posible.** Abierto como parque, elevaría el porcentaje de residentes de la ciudad a menos de 500 m de un parque del 77,4% al 79,4%.
 
-Las personas se calculan como viviendas del Catastro × 2,5. Se supone que cada zona tiene entrada desde todos los puntos de calle a menos de 30 m de su borde. La franja de los vecinos sustituiría los cuatro greens de práctica; habría que hablar con el club sobre si pueden trasladarse a otra parte del campo.
+Las personas se calculan como viviendas del Catastro × 2,5. Se supone que cada área tiene entrada desde todos los puntos de calle a menos de 30 m de su borde. La franja de los vecinos sustituiría los cuatro greens de práctica; habría que hablar con el club sobre si pueden trasladarse a otra parte del campo.
 
 ## Limitaciones y comprobaciones pendientes
 
@@ -99,7 +99,7 @@ El resultado principal se mantiene con cualquier tamaño mínimo de parque, pero
 
 - [ ] **Caminos que faltan.** Los recorridos a pie proceden de OpenStreetMap. Si existe una escalera o un camino que no figura en el mapa, las distancias reales a pie serían menores. Hay que recorrer a pie el trayecto desde la Carretera de Chile hacia el parque más cercano y documentarlo.
 - [ ] **Parques infantiles privados.** Algunos parques infantiles del mapa pueden estar dentro de urbanizaciones cerradas. En ese caso, el acceso real es peor que el indicado.
-- [ ] **Número de residentes.** Las viviendas proceden del Catastro; los residentes suponen 2,5 personas por vivienda e incluyen posibles viviendas vacías o secundarias. La población por sección censal del INE, incluido el porcentaje de menores de 15 años, haría más sólidas las cifras de residentes y mostraría cuántos niños viven en la bolsa.
+- [ ] **Número de residentes.** Las viviendas proceden del Catastro; los residentes suponen 2,5 personas por vivienda e incluyen posibles viviendas vacías o secundarias. La población por sección censal del INE, incluido el porcentaje de menores de 15 años, haría más sólidas las cifras de residentes y mostraría cuántos niños viven en la zona.
 - [ ] **Terreno del campo de golf.** El terreno es municipal y está en concesión a la Federación Canaria de Golf desde 2022. Falta conocer las condiciones completas de la concesión, el gasto municipal actual en el recinto, la calificación del suelo en el Plan General y si el solar abandonado junto al aparcamiento forma parte del recinto municipal (comprobar en el Catastro).
 
 Otras notas: los límites de barrio son la edición de 2018 del ISTAC, y el ISTAC no tiene ningún barrio llamado Negrín, por lo que la zona aparece en Las Torres. La comparación entre barrios usa 106 barrios con al menos 30 edificios residenciales.
@@ -115,7 +115,7 @@ Pedimos al Ayuntamiento de Las Palmas de Gran Canaria tres cosas, ordenadas seg�
 Próximos pasos para los vecinos:
 
 - [ ] Verificar las cuatro comprobaciones pendientes
-- [ ] Reunir firmas y contactos de los residentes de la bolsa
+- [ ] Reunir firmas y contactos de los residentes de la zona
 - [ ] Contactar con la asociación de vecinos y la junta municipal de distrito
 - [ ] Presentar la solicitud de información y la instancia formal con este estudio adjunto
 
