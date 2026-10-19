@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<title>Folleto A5 para buzones (blanco y negro): un parque para la Ctra. de Chile y la C/ Dr. Alfonso Chiscano Díaz</title>
+<!--
+  A5 letterbox flyer, black and white: black ink only, no filled areas (cheap to photocopy).
+  A cut-down flyer.html with a bigger QR code and no map. scripts/flyer.py fills in the QR code
+  and the printed web address (between the qr and url start/end markers) and prints
+  flyer-a5.pdf (one A5 page) and flyer-a5-2up.pdf (two per A4 sheet, to cut in half).
+-->
+<style>
+/* Archivo, bundled in fonts/ (SIL Open Font License) so the PDF never depends on the network */
+@font-face{font-family:'Archivo';font-weight:400;src:url(fonts/archivo-latin-400-normal.woff) format('woff')}
+@font-face{font-family:'Archivo';font-weight:600;src:url(fonts/archivo-latin-600-normal.woff) format('woff')}
+@font-face{font-family:'Archivo';font-weight:700;src:url(fonts/archivo-latin-700-normal.woff) format('woff')}
+@font-face{font-family:'Archivo Black';font-weight:400;src:url(fonts/archivo-black-latin-400-normal.woff) format('woff')}
+@page{size:A5;margin:0}
+*{box-sizing:border-box}
+html,body{margin:0}
+@media screen{body{background:#e9e6df;padding:8mm 0}.page{margin:0 auto;box-shadow:0 2mm 8mm rgba(0,0,0,.15)}}
+.page{position:relative;width:148mm;height:210mm;background:#fff;color:#000;overflow:hidden;
+  font-family:'Archivo','Helvetica Neue',Helvetica,Arial,sans-serif;padding:8mm 10mm 0}
+.display{font-family:'Archivo Black','Arial Black',sans-serif;font-weight:400}
+
+.kicker{font-weight:700;font-size:7.5pt;letter-spacing:.1em;text-transform:uppercase;
+  padding-bottom:2mm;border-bottom:0.6mm solid #000}
+h1{margin:3mm 0 0;font-size:32pt;line-height:.98;letter-spacing:-.01em}
+.lead{margin:3mm 0 0;font-size:11.5pt;line-height:1.3;font-weight:600}
+.art{display:block;width:128mm;height:19mm;margin:1.5mm 0 0}
+
+.ask p{margin:2.5mm 0 0;font-size:11pt;line-height:1.36}
+.compare{display:grid;grid-template-columns:1fr 8mm 1fr;align-items:stretch;margin-top:3.5mm}
+.compare .box{border:0.5mm solid #000;border-radius:2.5mm;padding:3mm 3.5mm}
+.compare .then{border-width:1mm}
+.compare b{display:block;font-family:'Archivo Black','Arial Black',sans-serif;font-weight:400;font-size:21pt;line-height:1}
+.compare span{display:block;font-size:8.5pt;line-height:1.3;margin-top:1mm}
+.compare .arrow{align-self:center;text-align:center;font-size:16pt;font-weight:700}
+
+.bottom{position:absolute;left:10mm;right:10mm;bottom:0}
+.cta{border:1mm solid #000;border-radius:3mm;padding:5mm 5mm 5mm 6mm;display:grid;
+  grid-template-columns:72mm 40mm;column-gap:4mm;align-items:center}
+.cta h2{margin:0 0 2.5mm;font-size:25pt;line-height:1}
+.cta p{margin:0 0 2mm;font-size:10.5pt;line-height:1.35}
+.url{font-weight:700;font-size:11pt !important}
+.qr{width:40mm;height:40mm;padding:2mm}
+.qr svg{display:block;width:36mm;height:36mm}
+footer{padding:2.5mm 0 6mm;font-size:7pt;line-height:1.35}
+footer p{margin:0}
+</style>
+</head>
+<body>
+<div class="page">
+
+<header>
+  <div class="kicker">Vecinos de la Ctra. de Chile y la C/ Dr. Alfonso Chiscano Díaz</div>
+  <h1 class="display">¿Dónde juegan nuestros niños?</h1>
+  <p class="lead">Más de 800 viviendas, unas 2.000 personas, a más de 1 km a pie del parque público más cercano.</p>
+  <svg class="art" viewBox="0 0 1200 200" preserveAspectRatio="xMidYMax slice" aria-hidden="true" focusable="false">
+    <g fill="#fff" stroke="#000" stroke-width="4">
+      <circle cx="955" cy="56" r="22"/>
+      <path d="M361 168 V120 M832 168 V112 M455 168 V140" stroke-width="6"/>
+      <circle cx="361" cy="100" r="34"/><circle cx="342" cy="114" r="22"/><circle cx="382" cy="110" r="24"/>
+      <circle cx="832" cy="86" r="42"/><circle cx="808" cy="104" r="26"/><circle cx="858" cy="100" r="28"/>
+      <circle cx="455" cy="134" r="16"/>
+    </g>
+    <g stroke="#000" stroke-linecap="round" fill="none">
+      <path d="M485 166 L505 74 L525 166 M635 166 L655 74 L675 166 M505 74 H655" stroke-width="7"/>
+      <path d="M548 76 V128 M568 76 V128 M592 76 L602 126 M612 76 L622 124" stroke-width="2.5"/>
+      <path d="M712 166 V96 M730 166 V96 M712 150 H730 M712 132 H730 M712 114 H730" stroke-width="5"/>
+      <path d="M730 96 C756 102 768 152 806 162" stroke-width="10"/>
+      <path d="M0 170 C220 160 420 168 600 166 C780 164 960 156 1200 170" stroke-width="3"/>
+    </g>
+    <g fill="#000"><rect x="541" y="127" width="34" height="7" rx="3"/><rect x="594" y="122" width="34" height="7" rx="3" transform="rotate(-8 611 125)"/></g>
+  </svg>
+</header>
+
+<section class="ask">
+  <p>Pedimos al Ayuntamiento un <strong>parque público y gratuito, con zona de juegos</strong>, en el solar abandonado junto al golf y en una franja del campo municipal junto a la Calle Dr. Alfonso Chiscano Díaz. Bastaría con el 6% del campo.</p>
+  <p>El campo es del Ayuntamiento, pero hoy solo entra quien paga por jugar al golf.</p>
+  <div class="compare">
+    <div class="box now"><b>1.145 m</b><span>a pie al parque más cercano, hoy</span></div>
+    <div class="arrow">→</div>
+    <div class="box then"><b>258 m</b><span>con el parque nuevo</span></div>
+  </div>
+</section>
+
+<div class="bottom">
+<section class="cta">
+  <div>
+    <h2 class="display">Apúntate</h2>
+    <p>Escanea el código y deja tu nombre. Te avisaremos de la reunión vecinal y de la recogida de firmas.</p>
+    <p class="url"><!-- url:start -->parque.barrionegrin.es<!-- url:end --></p>
+  </div>
+  <div class="qr">
+<!-- qr:start -->
+<svg viewBox="0 0 29 29" class="segno"><path class="qrline" stroke="#000" d="M0 0.5h7m1 0h2m1 0h1m1 0h3m2 0h2m2 0h7m-29 1h1m5 0h1m2 0h1m7 0h2m3 0h1m5 0h1m-29 1h1m1 0h3m1 0h1m2 0h1m4 0h1m1 0h1m1 0h3m1 0h1m1 0h3m1 0h1m-29 1h1m1 0h3m1 0h1m2 0h1m1 0h3m2 0h2m1 0h2m1 0h1m1 0h3m1 0h1m-29 1h1m1 0h3m1 0h1m1 0h1m3 0h4m1 0h1m1 0h2m1 0h1m1 0h3m1 0h1m-29 1h1m5 0h1m1 0h2m1 0h1m1 0h3m1 0h1m2 0h1m1 0h1m5 0h1m-29 1h7m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h7m-20 1h5m4 0h1m-18 1h7m1 0h1m3 0h1m1 0h1m1 0h1m5 0h2m3 0h1m-28 1h1m2 0h1m4 0h2m2 0h1m4 0h7m3 0h1m-27 1h3m1 0h3m1 0h2m1 0h1m4 0h1m1 0h3m3 0h1m-27 1h1m2 0h2m2 0h1m2 0h1m1 0h4m5 0h3m1 0h1m1 0h1m-28 1h4m1 0h2m4 0h1m1 0h2m2 0h1m1 0h1m1 0h1m1 0h1m1 0h4m-27 1h1m1 0h2m1 0h1m1 0h3m1 0h1m1 0h1m3 0h4m1 0h2m2 0h1m-28 1h1m4 0h1m1 0h4m1 0h4m6 0h1m-24 1h1m2 0h3m1 0h3m2 0h4m8 0h2m-21 1h4m1 0h3m1 0h1m2 0h1m7 0h3m-28 1h1m4 0h1m2 0h1m1 0h3m1 0h2m3 0h6m2 0h2m-29 1h1m1 0h1m1 0h1m1 0h1m2 0h1m2 0h1m2 0h1m6 0h2m2 0h1m-27 1h1m2 0h3m2 0h2m2 0h2m1 0h1m3 0h1m2 0h2m1 0h1m2 0h1m-29 1h1m1 0h2m1 0h3m1 0h1m2 0h1m1 0h2m1 0h1m2 0h5m1 0h1m1 0h1m-21 1h1m2 0h2m1 0h1m1 0h1m1 0h3m3 0h2m1 0h2m-29 1h7m1 0h2m3 0h1m1 0h1m1 0h4m1 0h1m1 0h1m-25 1h1m5 0h1m1 0h1m3 0h1m3 0h1m2 0h2m3 0h2m1 0h2m-29 1h1m1 0h3m1 0h1m1 0h1m2 0h1m1 0h1m3 0h2m1 0h8m-28 1h1m1 0h3m1 0h1m1 0h4m1 0h3m2 0h4m1 0h1m2 0h1m-27 1h1m1 0h3m1 0h1m1 0h2m2 0h5m2 0h7m1 0h1m-28 1h1m5 0h1m1 0h1m1 0h2m2 0h1m1 0h1m2 0h2m3 0h2m1 0h1m-28 1h7m5 0h1m1 0h1m2 0h3m2 0h1m1 0h1m1 0h1"/></svg>
+<!-- qr:end -->
+  </div>
+</section>
+<footer>
+  <p>En la web: el mapa, el estudio completo y cómo ayudar. Datos abiertos: OpenStreetMap, Catastro e ISTAC (octubre de 2026).</p>
+</footer>
+</div>
+
+</div>
+</body>
+</html>

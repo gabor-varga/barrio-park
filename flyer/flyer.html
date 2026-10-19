@@ -3,13 +3,17 @@
 <head>
 <meta charset="utf-8">
 <title>Folleto: un parque para la Ctra. de Chile y la C/ Dr. Alfonso Chiscano Díaz</title>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo+Black&amp;family=Archivo:wght@400;600;700&amp;display=swap">
 <!--
   A4 flyer. scripts/flyer.py fills in the QR code, the printed web address and the map
   (between the qr, url and mapa start/end markers below); run it again after changing the
   address. Print: A4, margins "None", background graphics on; or print flyer.pdf.
 -->
 <style>
+/* Archivo, bundled in fonts/ (SIL Open Font License) so the PDF never depends on the network */
+@font-face{font-family:'Archivo';font-weight:400;src:url(fonts/archivo-latin-400-normal.woff) format('woff')}
+@font-face{font-family:'Archivo';font-weight:600;src:url(fonts/archivo-latin-600-normal.woff) format('woff')}
+@font-face{font-family:'Archivo';font-weight:700;src:url(fonts/archivo-latin-700-normal.woff) format('woff')}
+@font-face{font-family:'Archivo Black';font-weight:400;src:url(fonts/archivo-black-latin-400-normal.woff) format('woff')}
 @page{size:A4;margin:0}
 *{box-sizing:border-box}
 html,body{margin:0;-webkit-print-color-adjust:exact;print-color-adjust:exact}
@@ -160,7 +164,7 @@ footer .unicef{font-weight:700;color:#0b5a39;font-size:9.5pt;margin-bottom:1.5mm
   </div>
   <div class="qr">
 <!-- qr:start -->
-<svg viewBox="0 0 29 29" class="segno"><path class="qrline" stroke="#15201a" d="M0 0.5h7m1 0h2m1 0h1m1 0h3m2 0h2m2 0h7m-29 1h1m5 0h1m2 0h1m7 0h2m3 0h1m5 0h1m-29 1h1m1 0h3m1 0h1m2 0h1m4 0h1m1 0h1m1 0h3m1 0h1m1 0h3m1 0h1m-29 1h1m1 0h3m1 0h1m2 0h1m1 0h3m2 0h2m1 0h2m1 0h1m1 0h3m1 0h1m-29 1h1m1 0h3m1 0h1m1 0h1m3 0h4m1 0h1m1 0h2m1 0h1m1 0h3m1 0h1m-29 1h1m5 0h1m1 0h2m1 0h1m1 0h3m1 0h1m2 0h1m1 0h1m5 0h1m-29 1h7m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h7m-20 1h5m4 0h1m-18 1h7m1 0h1m3 0h1m1 0h1m1 0h1m5 0h2m3 0h1m-28 1h1m2 0h1m4 0h2m2 0h1m4 0h7m3 0h1m-27 1h3m1 0h3m1 0h2m1 0h1m4 0h1m1 0h3m3 0h1m-27 1h1m2 0h2m2 0h1m2 0h1m1 0h4m5 0h3m1 0h1m1 0h1m-28 1h4m1 0h2m4 0h1m1 0h2m2 0h1m1 0h1m1 0h1m1 0h1m1 0h4m-27 1h1m1 0h2m1 0h1m1 0h3m1 0h1m1 0h1m3 0h4m1 0h2m2 0h1m-28 1h1m4 0h1m1 0h4m1 0h4m6 0h1m-24 1h1m2 0h3m1 0h3m2 0h4m8 0h2m-21 1h4m1 0h3m1 0h1m2 0h1m7 0h3m-28 1h1m4 0h1m2 0h1m1 0h3m1 0h2m3 0h6m2 0h2m-29 1h1m1 0h1m1 0h1m1 0h1m2 0h1m2 0h1m2 0h1m6 0h2m2 0h1m-27 1h1m2 0h3m2 0h2m2 0h2m1 0h1m3 0h1m2 0h2m1 0h1m2 0h1m-29 1h1m1 0h2m1 0h3m1 0h1m2 0h1m1 0h2m1 0h1m2 0h5m1 0h1m1 0h1m-21 1h1m2 0h2m1 0h1m1 0h1m1 0h3m3 0h2m1 0h2m-29 1h7m1 0h2m3 0h1m1 0h1m1 0h4m1 0h1m1 0h1m-25 1h1m5 0h1m1 0h1m3 0h1m3 0h1m2 0h2m3 0h2m1 0h2m-29 1h1m1 0h3m1 0h1m1 0h1m2 0h1m1 0h1m3 0h2m1 0h8m-28 1h1m1 0h3m1 0h1m1 0h4m1 0h3m2 0h4m1 0h1m2 0h1m-27 1h1m1 0h3m1 0h1m1 0h2m2 0h5m2 0h7m1 0h1m-28 1h1m5 0h1m1 0h1m1 0h2m2 0h1m1 0h1m2 0h2m3 0h2m1 0h1m-28 1h7m5 0h1m1 0h1m2 0h3m2 0h1m1 0h1m1 0h1"/></svg>
+<svg viewBox="0 0 29 29" class="segno"><path class="qrline" stroke="#000" d="M0 0.5h7m1 0h2m1 0h1m1 0h3m2 0h2m2 0h7m-29 1h1m5 0h1m2 0h1m7 0h2m3 0h1m5 0h1m-29 1h1m1 0h3m1 0h1m2 0h1m4 0h1m1 0h1m1 0h3m1 0h1m1 0h3m1 0h1m-29 1h1m1 0h3m1 0h1m2 0h1m1 0h3m2 0h2m1 0h2m1 0h1m1 0h3m1 0h1m-29 1h1m1 0h3m1 0h1m1 0h1m3 0h4m1 0h1m1 0h2m1 0h1m1 0h3m1 0h1m-29 1h1m5 0h1m1 0h2m1 0h1m1 0h3m1 0h1m2 0h1m1 0h1m5 0h1m-29 1h7m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h7m-20 1h5m4 0h1m-18 1h7m1 0h1m3 0h1m1 0h1m1 0h1m5 0h2m3 0h1m-28 1h1m2 0h1m4 0h2m2 0h1m4 0h7m3 0h1m-27 1h3m1 0h3m1 0h2m1 0h1m4 0h1m1 0h3m3 0h1m-27 1h1m2 0h2m2 0h1m2 0h1m1 0h4m5 0h3m1 0h1m1 0h1m-28 1h4m1 0h2m4 0h1m1 0h2m2 0h1m1 0h1m1 0h1m1 0h1m1 0h4m-27 1h1m1 0h2m1 0h1m1 0h3m1 0h1m1 0h1m3 0h4m1 0h2m2 0h1m-28 1h1m4 0h1m1 0h4m1 0h4m6 0h1m-24 1h1m2 0h3m1 0h3m2 0h4m8 0h2m-21 1h4m1 0h3m1 0h1m2 0h1m7 0h3m-28 1h1m4 0h1m2 0h1m1 0h3m1 0h2m3 0h6m2 0h2m-29 1h1m1 0h1m1 0h1m1 0h1m2 0h1m2 0h1m2 0h1m6 0h2m2 0h1m-27 1h1m2 0h3m2 0h2m2 0h2m1 0h1m3 0h1m2 0h2m1 0h1m2 0h1m-29 1h1m1 0h2m1 0h3m1 0h1m2 0h1m1 0h2m1 0h1m2 0h5m1 0h1m1 0h1m-21 1h1m2 0h2m1 0h1m1 0h1m1 0h3m3 0h2m1 0h2m-29 1h7m1 0h2m3 0h1m1 0h1m1 0h4m1 0h1m1 0h1m-25 1h1m5 0h1m1 0h1m3 0h1m3 0h1m2 0h2m3 0h2m1 0h2m-29 1h1m1 0h3m1 0h1m1 0h1m2 0h1m1 0h1m3 0h2m1 0h8m-28 1h1m1 0h3m1 0h1m1 0h4m1 0h3m2 0h4m1 0h1m2 0h1m-27 1h1m1 0h3m1 0h1m1 0h2m2 0h5m2 0h7m1 0h1m-28 1h1m5 0h1m1 0h1m1 0h2m2 0h1m1 0h1m2 0h2m3 0h2m1 0h1m-28 1h7m5 0h1m1 0h1m2 0h3m2 0h1m1 0h1m1 0h1"/></svg>
 <!-- qr:end -->
   </div>
 </section>

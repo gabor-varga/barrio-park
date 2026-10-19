@@ -53,10 +53,13 @@ The repo owner lives at Ctra. de Chile 37 and leads the campaign.
   keep their homes), in a grid filling each building's footprint.
 - `study/`: markdown export of the study. The live, editable study is a Claude Docs document:
   https://claude.ai/code/artifact/e5e4bef3-f24d-4a6c-831b-1d688d774c70
-- `flyer/flyer.html` + `flyer/flyer.pdf`: the A4 flyer (headline, the ask with the website's map,
-  1,145 m → 258 m, sign-up QR). `scripts/flyer.py <url> --pdf flyer/flyer.pdf` fills in the QR code,
-  printed address and map (copied from `docs/index.html`, colours fixed for print) and prints the PDF
-  with WeasyPrint. No meeting date or contact on it: the sign-up form covers both. (Older design canvas:
+- `flyer/flyer.html` + `.pdf`: the A4 poster (headline, the ask with the website's map, 1,145 m →
+  258 m, sign-up QR), for building entrances (ask the community first) and shops; ~50–60 copies.
+  `flyer/flyer-a5.html` + `flyer-a5.pdf` / `flyer-a5-2up.pdf` (two per A4 sheet): the letterbox flyer,
+  black and white only (black ink, no filled areas: ~820 copies must be cheap), no map, bigger QR.
+  Fonts are bundled in `flyer/fonts/` (Archivo, OFL). `scripts/flyer.py <url> --pdf` fills in the QR codes, printed address
+  and map (copied from `docs/index.html`, colours fixed for print) and prints all three PDFs with
+  WeasyPrint. No meeting date or contact on it: the sign-up form covers both. (Older design canvas:
   https://claude.ai/artifact/Fd2qSGw1sqkF3BFhnmQQNW.)
 - `docs/index.html` (Spanish) and `docs/en/index.html` (English, linked by a switch at the top of each):
   campaign website, live at https://parque.barrionegrin.es/ (custom domain bought at Piensa Solutions;

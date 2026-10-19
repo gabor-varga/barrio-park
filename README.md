@@ -15,7 +15,7 @@ public park. Every home in the pocket would then be within 500 m of a park.
 | `docs/` | Campaign website (Spanish, with an English page in `docs/en/`), published with GitHub Pages |
 | `scripts/` | `build-site.sh`, which builds the website with the study for GitHub Pages |
 | `study/` | The study, in English and Spanish, with its maps |
-| `flyer/` | One-page A4 flyer in Spanish: `flyer.pdf` to print, `flyer.html` to edit |
+| `flyer/` | Flyers in Spanish: A4 poster and A5 letterbox flyer (PDFs to print, HTML to edit) |
 | `analysis/` | `green_access.py`, the proposal areas and the results of the latest run |
 | `data/` | Where to download the input data (not committed) |
 
@@ -38,21 +38,29 @@ One-time setup on GitHub: **Settings → Pages → Build and deployment → Sour
 **Custom domain: `parque.barrionegrin.es`** (then tick *Enforce HTTPS* once GitHub has the certificate).
 The domain's DNS (at Piensa Solutions) needs a CNAME record `parque` → `gabor-varga.github.io`.
 
-## Print the flyer
+## Print the flyers
 
-`flyer/flyer.pdf` is ready to print: A4, one page, colour. On a home printer choose "Actual size"
-(not "Fit to page"); a print shop can use it as is.
+| File | Use | Print |
+| --- | --- | --- |
+| `flyer/flyer.pdf` | A4 poster for building entrances and shops, with the map | A4, colour |
+| `flyer/flyer-a5-2up.pdf` | Letterbox flyer: two A5 copies on one A4 sheet | A4 landscape, black and white, then cut in half |
+| `flyer/flyer-a5.pdf` | The same letterbox flyer as a single A5 page | A5, black and white |
 
-The QR code, the printed web address and the map are filled in by `scripts/flyer.py`. After changing
-the web address (for example to your own domain), run it again:
+On a home printer choose "Actual size" (not "Fit to page"); a print shop can use the files as they are.
+
+The QR codes, the printed web address and the A4 map are filled in by `scripts/flyer.py`. After
+changing the web address, run it again:
 
 ```bash
 pip install segno weasyprint==62.3 pydyf==0.10.0
-python scripts/flyer.py https://parque.barrionegrin.es/ --pdf flyer/flyer.pdf
+python scripts/flyer.py https://parque.barrionegrin.es/ --pdf
 ```
 
 The map is copied from the website (`docs/index.html`), so redraw that first if the data changed.
-`flyer/flyer.html` can also be printed from a browser: A4, margins "None", background graphics on.
+The Archivo fonts are bundled in `flyer/fonts/` (SIL Open Font License), so the PDFs never depend
+on the network.
+The HTML files (`flyer/flyer.html`, `flyer/flyer-a5.html`) can also be printed from a browser:
+margins "None", background graphics on.
 
 ## Run the analysis
 
