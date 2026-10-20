@@ -103,3 +103,6 @@ html{-webkit-text-size-adjust:100%}body{margin:0}
 .study-card{display:flex;flex-direction:column;gap:12px;padding:20px;border-radius:14px;background:var(--soft);
   border-left:6px solid var(--link)}
 .study-card h3{margin:0;font-family:var(--display);font-weight:400;font-size:22px;line-height:1.15}
+/* Links on the yellow band: dark text colour, readable in both themes */
+.band-yellow p a{color:var(--on-yellow);font-weight:700}
+.contact{font-size:16px}

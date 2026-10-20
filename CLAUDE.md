@@ -66,6 +66,8 @@ The repo owner lives at Ctra. de Chile 37 and leads the campaign.
   DNS: CNAME `parque` → `gabor-varga.github.io`; the github.io address redirects there) (older copy at
   https://claude.ai/artifact/Q3spwuWrBJaGMjUxUEUUEF). Its "Apúntate aquí" button opens the Tally sign-up
   form (https://tally.so/r/VpEBNv: name, phone, street, consent); the meeting date says "por anunciar".
+  Campaign email: parque@barrionegrin.es (Piensa mailbox, forwarded to the owner's Gmail; MX
+  mx.buzondecorreo.com, SPF set), shown in the sign-up section, the data note and the footer of both pages.
 - `docs/site.css` is shared by both pages. `analysis/site_map.py` draws the orientation map (inline SVG
   themed by the `--map-*` CSS variables; `--lang es|en`) from a run's `layers.gpkg` into each page between
   the `<!-- mapa:start/end -->` markers. `docs/og.png` / `og-en.png` (link previews) are screenshots of
@@ -91,8 +93,9 @@ The repo owner lives at Ctra. de Chile 37 and leads the campaign.
       DNI/NIE, street and number, signature; GDPR notice). PDFs via `scripts/html2pdf.py`.
 - The files in `peticion/` are blank templates with [BRACKETS]. The filled-in copies (owner's name,
   NIE, email) and their PDFs live in `peticion/privado/`, which is git-ignored: the repo is public.
-  Never copy personal details into tracked files; edit and print from `privado/`. The private
-  `peticion.html` still needs the representative's name, DNI and email.
+  Never copy personal details into tracked files; edit and print from `privado/`. The campaign
+  email (parque@barrionegrin.es) is public and is already in the templates (contact email, GDPR notice).
+  The private `peticion.html` still needs the representative's name and DNI.
 - [ ] File the request for public information, drafted in `peticion/solicitud-informacion.html` (filled-in copy in `privado/`) (Ley 19/2013,
       Ley 12/2014 de Canarias; to the Ayuntamiento and the IMD): the 2022 concession contract and pliegos
       (recovery and compensation clauses), the limits of the concession (does it include plot A?), who owns
