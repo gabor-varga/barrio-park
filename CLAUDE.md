@@ -85,7 +85,22 @@ The repo owner lives at Ctra. de Chile 37 and leads the campaign.
 - [ ] Check in the Catastro who owns plot A.
 - [ ] Household size from INE (census section), including the share of children under 15.
 - [ ] Verify on the ground: missing paths, whether the nearest playgrounds are public.
-- [ ] Draft the collective petition (derecho de petición, LO 4/2001) with a signature sheet
-      (name, DNI, address, signature) and the information request (concession contract,
-      Plan General classification, ownership of plot A).
-- [ ] Contact the residents' association, the Junta Municipal de Distrito, and council groups for a moción.
+- [x] Draft the collective petition (`peticion/peticion.html`, addressed to the Alcaldía; asks for the
+      park on A + B, entrances from both streets, plot A ownership + Plan General classification, a
+      meeting) and the signature sheet (`peticion/hoja-firmas.html`, A4 landscape, 14 per sheet: name,
+      DNI/NIE, street and number, signature; GDPR notice). PDFs via `scripts/html2pdf.py`.
+- The files in `peticion/` are blank templates with [BRACKETS]. The filled-in copies (owner's name,
+  NIE, email) and their PDFs live in `peticion/privado/`, which is git-ignored: the repo is public.
+  Never copy personal details into tracked files; edit and print from `privado/`. The private
+  `peticion.html` still needs the representative's name, DNI and email.
+- [ ] File the request for public information, drafted in `peticion/solicitud-informacion.html` (filled-in copy in `privado/`) (Ley 19/2013,
+      Ley 12/2014 de Canarias; to the Ayuntamiento and the IMD): the 2022 concession contract and pliegos
+      (recovery and compensation clauses), the limits of the concession (does it include plot A?), who owns
+      plot A, the Plan General classification, spending since 2015 and fees received since 2022. One person
+      files it online; answer due within a month. No answer = refusal: claim to the Comisionado de
+      Transparencia y Acceso a la Información Pública de Canarias.
+- [ ] Contact the residents' associations, the Junta Municipal de Distrito, and council groups for a moción.
+      Research done (20 Oct 2026) in `privado/contactos.md` (git-ignored): formal channels (Registro de
+      Participación de la Ciudadanía unlocks district board and Pleno rights), AVETAL / Tarjas and the
+      Nueva Ciudad Alta conflict ("parks without expropriation"), councillors, groups, VOPIA, UNICEF, media.
+      Las Torres = Ciudad Alta district (chair: Betsaida González); Guanarteme = Isleta-Puerto-Guanarteme.

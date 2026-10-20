@@ -16,6 +16,7 @@ public park. Every home in the pocket would then be within 500 m of a park.
 | `scripts/` | `build-site.sh`, which builds the website with the study for GitHub Pages |
 | `study/` | The study, in English and Spanish, with its maps |
 | `flyer/` | Flyers in Spanish: A4 poster and A5 letterbox flyer (PDFs to print, HTML to edit) |
+| `peticion/` | Templates: the collective petition (Ley Orgánica 4/2001), its signature sheet and the information request. Fill in copies in `peticion/privado/`, which git ignores |
 | `analysis/` | `green_access.py`, the proposal areas and the results of the latest run |
 | `data/` | Where to download the input data (not committed) |
 

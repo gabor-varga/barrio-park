@@ -2,3 +2,9 @@ cache
 env
 green_access_out
 _site/
+
+# Filled-in petition documents (name, NIE, email): never commit
+peticion/privado/
+
+# Campaign notes not for publication (contacts, strategy)
+/privado/
